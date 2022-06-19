@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(78, 78, 78);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1 {
+  margin: 10px;
+  color:whitesmoke;
+  text-shadow: 2px 2px rgb(93, 93, 69);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.item_name {
+  background: transparent;
+  border:none;
+  border-bottom: 1px solid black;
+  width: 25%;
+  color: beige;
+  font-size: 25px;
+  margin: 5px;
+}
+
+.ost_tracking_element {
+  background: gray;
+  height: 155px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#ost_global_clock {
+  height: 75px;
+  width: 250px;
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 45px;
+}
+
+#ost_global_clock_start_stop {
+  height: 75px;
+  width: 200px;
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 45px;
+}
+
+#ost_item_data {
+  width: 90%;
+  max-width: 92.5%;
+}
+
+#ost_item_button {
+  width: 150px;
+  font-size: 110px;
+  padding: 0px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 75px;
+}
+
+.item_adder {
+  background: gray;
+  height: 120px;
+  width: 120px;
+  margin: 10px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 100px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 90px;
+}
+
+#adder:hover  {
+  background: rgb(125, 175, 125);
+}
+
+#subtracter:hover  {
+  background: rgb(175, 125, 125);
+}
