@@ -100,12 +100,38 @@ function CalcTotalOnScreenPercentage(
   return (sum / time) * 100;
 }
 
+function UpdateOSIdata(
+  current: Appearance | undefined,
+  on_screen_item: OnScreenItem,
+  chars: OnScreenItem[],
+  time: number,
+  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
+) {
+  let newChars = [...chars],
+    newAppearances = current
+      ? on_screen_item.appearances.map((app) =>
+          app.start === current.start ? { ...app, end: time } : app
+        )
+      : [...on_screen_item.appearances, { start: time }];
+  newChars[chars.indexOf(on_screen_item)] = {
+    ...on_screen_item,
+    appearances: newAppearances,
+  };
+
+  // TODO: there is a bug here that if you toggle visability while the timer is paused
+  // you will keep making new appearances with the same start and end values for
+  // every toggle
+
+  setChars(newChars);
+}
+
 function RenderOnScreenItem(
   on_screen_item: OnScreenItem,
   time: number,
-  set_on_screen: React.Dispatch<React.SetStateAction<boolean>>
+  chars: OnScreenItem[],
+  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
 ) {
-  const on_screen = on_screen_item.appearances.find((app) => !app.end);
+  const current = on_screen_item.appearances.find((app) => !app.end);
   return (
     <div>
       <div className="ost_tracking_element" id="ost_item_data">
@@ -140,9 +166,11 @@ function RenderOnScreenItem(
       <button
         className="ost_tracking_element"
         id="ost_item_button"
-        onClick={() => set_on_screen(!on_screen)}
+        onClick={() =>
+          UpdateOSIdata(current, on_screen_item, chars, time, setChars)
+        }
       >
-        {on_screen ? "👁" : "--"}
+        {current ? "👁" : "--"}
       </button>
     </div>
   );
@@ -192,7 +220,7 @@ export default function App() {
       <h1>On Screen Timer</h1>
       {RenderGlobalClock(playing, time, setPlaying)}
       {chars.map((char) => {
-        return RenderOnScreenItem(char, time, set_on_screen);
+        return RenderOnScreenItem(char, time, chars, setChars);
       })}
       <div className="item_adder" id="adder">
         +
