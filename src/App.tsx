@@ -62,28 +62,28 @@ function RenderTimelineBar(char: OnScreenItem, time: number) {
   );
 }
 
-function RenderHistogramBar(char: OnScreenItem, time: number) {
-  let sum = 0;
-  for (let app of char.appearances) {
-    if (app.end) {
-      sum += app.end - app.start;
-    } else {
-      sum += time - app.start;
-    }
-  }
-  return (
-    <div
-      style={{
-        position: "absolute",
-        background: char.color,
-        left: char.appearances[0].start,
-        top: 5,
-        height: 10,
-        width: ((sum - char.appearances[0].start) / time) * 100 + "%",
-      }}
-    />
-  );
-}
+// function RenderHistogramBar(char: OnScreenItem, time: number) {
+//   let sum = 0;
+//   for (let app of char.appearances) {
+//     if (app.end) {
+//       sum += app.end - app.start;
+//     } else {
+//       sum += time - app.start;
+//     }
+//   }
+//   return (
+//     <div
+//       style={{
+//         position: "absolute",
+//         background: char.color,
+//         left: char.appearances[0].start,
+//         top: 5,
+//         height: 10,
+//         width: ((sum - char.appearances[0].start) / time) * 100 + "%",
+//       }}
+//     />
+//   );
+// }
 
 function CalcTotalOnScreenPercentage(
   on_screen_item: OnScreenItem,
@@ -135,7 +135,7 @@ function RenderOnScreenItem(
   return (
     <div>
       <div className="ost_tracking_element" id="ost_item_data">
-        {/* need to figure out how update the name */}
+        {/* TODO: need to figure out how update the name */}
         <input
           className="item_name"
           type="text"
@@ -154,7 +154,7 @@ function RenderOnScreenItem(
             background: "orange",
             height: 10,
             borderRadius: 5,
-            // why does below have to 99.5 instead of 100% to look right?
+            // TODO: why does below have to 99.5 instead of 100% to look right?
             // margin maybe?
             width:
               CalcTotalOnScreenPercentage(on_screen_item, time) * 0.995 + "%",
@@ -176,8 +176,31 @@ function RenderOnScreenItem(
   );
 }
 
+function AddItem(
+  time: number,
+  chars: OnScreenItem[],
+  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
+) {
+  const new_app: Appearance = { start: time };
+  const new_item: OnScreenItem = {
+    name: "New Item",
+    appearances: [new_app],
+    color: "black",
+  };
+  chars.push(new_item);
+  setChars(chars);
+}
+
+function RemoveItem(
+  chars: OnScreenItem[],
+  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
+) {
+  chars.pop();
+  setChars(chars);
+}
+
 export default function App() {
-  const [hist_value, set_hist_value] = useState(109.5); // largest the value can be
+  // const [hist_value, set_hist_value] = useState(109.5); // largest the value can be
   const [time, setTime] = useState(200),
     [playing, setPlaying] = useState(false),
     [chars, setChars] = useState<OnScreenItem[]>([
@@ -222,15 +245,24 @@ export default function App() {
       {chars.map((char) => {
         return RenderOnScreenItem(char, time, chars, setChars);
       })}
-      <div className="item_adder" id="adder">
+      {/* TODO: figure out why these buttons only update immediately when the timer is running*/}
+      <div
+        className="item_adder"
+        id="adder"
+        onClick={() => AddItem(time, chars, setChars)}
+      >
         +
       </div>
-      <div className="item_adder" id="subtracter">
+      <div
+        className="item_adder"
+        id="subtracter"
+        onClick={() => RemoveItem(chars, setChars)}
+      >
         -
       </div>
 
       {/* the original logic below */}
-      <div>
+      {/* <div>
         {chars.map((char, i) => {
           const current = char.appearances.find((app) => !app.end);
           return (
@@ -258,13 +290,13 @@ export default function App() {
             </div>
           );
         })}
-      </div>
+      </div> */}
       {/* the original ost bars */}
-      <div style={{ width: "100%" }}>
+      {/* <div style={{ width: "100%" }}>
         {chars.map((char) => {
           return RenderTimelineBar(char, time);
         })}
-      </div>
+      </div> */}
       {/* the item right below this prints the dict */}
       <div>
         <pre>{JSON.stringify(chars, null, 2)}</pre>
