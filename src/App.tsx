@@ -85,23 +85,6 @@ function RenderHistogramBar(char: OnScreenItem, time: number) {
   );
 }
 
-// function RenderCharacterInfo(
-//   char: OnScreenItem,
-//   time: number,
-//   current: Appearance | undefined
-// ) {
-//   return (
-//     <div>
-//       <div style={{ float: "left" }}>
-//         <p>{char.name}</p>
-//         {RenderHistogramBar(char, time)}
-//         {RenderTimelineBar(char, time)}
-//       </div>
-//       <button>{current ? "leave" : "enter"}</button>
-//     </div>
-//   );
-// }
-
 function CalcTotalOnScreenPercentage(
   on_screen_item: OnScreenItem,
   time: number
@@ -120,9 +103,9 @@ function CalcTotalOnScreenPercentage(
 function RenderOnScreenItem(
   on_screen_item: OnScreenItem,
   time: number,
-  on_screen: boolean,
   set_on_screen: React.Dispatch<React.SetStateAction<boolean>>
 ) {
+  const on_screen = on_screen_item.appearances.find((app) => !app.end);
   return (
     <div>
       <div className="ost_tracking_element" id="ost_item_data">
@@ -209,63 +192,8 @@ export default function App() {
       <h1>On Screen Timer</h1>
       {RenderGlobalClock(playing, time, setPlaying)}
       {chars.map((char) => {
-        return RenderOnScreenItem(char, time, on_screen, set_on_screen);
+        return RenderOnScreenItem(char, time, set_on_screen);
       })}
-      {/* <div style={{ background: "gray" }}>
-        <div style={{ display: "flex", margin: 5 }}>Character Name</div>
-        <div
-          style={{
-            background: "orange",
-            left: 0,
-            // top: 5,
-            height: 1,
-            width: (60 / 100) * 100 + "%",
-            float: "left",
-            padding: 5,
-            margin: 5,
-          }}
-        />
-        <div>Percent screen time</div>
-        <div
-          style={{
-            margin: 5,
-          }}
-        >
-          {RenderTimelineBar(chars[0], time, "gray")}
-        </div>
-      </div> */}
-      {/* the original prototype */}
-      {/* <div>
-        <div className="ost_tracking_element" id="ost_item_data">
-          <input
-            className="item_name"
-            type="text"
-            defaultValue={"Character Name"}
-          />
-          <div style={{ marginLeft: 5 }}>
-            Percent of total time on screen {hist_value}%
-          </div>
-          <div
-            style={{
-              margin: 5,
-              background: "orange",
-              height: 10,
-              borderRadius: 5,
-              width: (hist_value / time) * 100 + "%",
-            }}
-          />
-          <div style={{ marginLeft: 5 }}>On Screen Occurances</div>
-          <div>{RenderTimelineBar(chars[0], time)}</div>
-        </div>
-        <button
-          className="ost_tracking_element"
-          id="ost_item_button"
-          onClick={() => set_on_screen(!on_screen)}
-        >
-          {on_screen ? "👁" : "--"}
-        </button>
-      </div>
-      {RenderOnScreenItem(chars[1], time, on_screen, set_on_screen)} */}
       <div className="item_adder" id="adder">
         +
       </div>
@@ -274,10 +202,9 @@ export default function App() {
       </div>
 
       {/* the original logic below */}
-      {/* <div>
+      <div>
         {chars.map((char, i) => {
           const current = char.appearances.find((app) => !app.end);
-          return RenderCharacterInfo(char, time, current);
           return (
             <div key={i} style={{ display: "flex", margin: 10 }}>
               <button
@@ -303,13 +230,13 @@ export default function App() {
             </div>
           );
         })}
-      </div> */}
+      </div>
       {/* the original ost bars */}
-      {/* <div style={{ width: "100%" }}>
+      <div style={{ width: "100%" }}>
         {chars.map((char) => {
           return RenderTimelineBar(char, time);
         })}
-      </div> */}
+      </div>
       {/* the item right below this prints the dict */}
       <div>
         <pre>{JSON.stringify(chars, null, 2)}</pre>
