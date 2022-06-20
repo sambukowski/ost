@@ -37,21 +37,26 @@ function RenderGlobalClock(
   );
 }
 
-function RenderTimelineBar(char: OnScreenItem, time: number) {
+function TimelineBar(props: { char: OnScreenItem; time: number }) {
   return (
     <div style={{ display: "flex" }}>
-      <div key={char.name} style={{ position: "relative", flex: 1, margin: 5 }}>
-        {char.appearances.map((app, i) => {
+      <div
+        key={props.char.name}
+        style={{ position: "relative", flex: 1, margin: 5 }}
+      >
+        {props.char.appearances.map((app, i) => {
           return (
             <div
               key={i}
               style={{
                 position: "absolute",
-                background: char.color,
-                left: (app.start / time) * 100 + "%",
+                background: props.char.color,
+                left: (app.start / props.time) * 100 + "%",
                 top: 0,
                 height: 10,
-                width: (((app.end ?? time) - app.start) / time) * 100 + "%",
+                width:
+                  (((app.end ?? props.time) - app.start) / props.time) * 100 +
+                  "%",
                 borderRadius: 5,
               }}
             />
@@ -107,20 +112,20 @@ function UpdateOSIdata(
   time: number,
   setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
 ) {
-  let newChars = [...chars],
-    newAppearances = current
-      ? on_screen_item.appearances.map((app) =>
-          app.start === current.start ? { ...app, end: time } : app
-        )
-      : [...on_screen_item.appearances, { start: time }];
+  let newChars = [...chars];
+
+  const lastIndex = on_screen_item.appearances.length - 1,
+    last = on_screen_item.appearances[lastIndex];
+  const newApps = [...on_screen_item.appearances];
+
+  if (!last.end) newApps[lastIndex] = { ...last, end: time };
+  else if (last.end === time) newApps[lastIndex] = { ...last, end: undefined };
+  else newApps.push({ start: time });
+
   newChars[chars.indexOf(on_screen_item)] = {
     ...on_screen_item,
-    appearances: newAppearances,
+    appearances: newApps,
   };
-
-  // TODO: there is a bug here that if you toggle visability while the timer is paused
-  // you will keep making new appearances with the same start and end values for
-  // every toggle
 
   setChars(newChars);
 }
@@ -133,13 +138,22 @@ function RenderOnScreenItem(
 ) {
   const current = on_screen_item.appearances.find((app) => !app.end);
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <div className="ost_tracking_element" id="ost_item_data">
         {/* TODO: need to figure out how update the name */}
         <input
           className="item_name"
           type="text"
-          defaultValue={on_screen_item.name}
+          value={on_screen_item.name}
+          onChange={(e) => {
+            console.log("yee", e.target.value);
+            let newChars = [...chars];
+            newChars[chars.indexOf(on_screen_item)] = {
+              ...on_screen_item,
+              name: e.target.value,
+            };
+            setChars(newChars);
+          }}
           id="osi_name"
         />
         {/* {(on_screen_item.name = document.getElementById("osi_name").value)} */}
@@ -148,20 +162,22 @@ function RenderOnScreenItem(
           {CalcTotalOnScreenPercentage(on_screen_item, time).toFixed(2)}%
         </div>
         {/* percent total screen time histogram bar */}
-        <div
-          style={{
-            margin: 5,
-            background: "orange",
-            height: 10,
-            borderRadius: 5,
-            // TODO: why does below have to 99.5 instead of 100% to look right?
-            // margin maybe?
-            width:
-              CalcTotalOnScreenPercentage(on_screen_item, time) * 0.995 + "%",
-          }}
-        />
+        <div style={{ position: "relative", width: "100%", padding: 10 }}>
+          <div
+            style={{
+              background: "orange",
+              height: 10,
+              borderRadius: 5,
+              // TODO: why does below have to 99.5 instead of 100% to look right?
+              // margin maybe?
+              width: CalcTotalOnScreenPercentage(on_screen_item, time) + "%",
+            }}
+          />
+        </div>
         <div style={{ marginLeft: 5 }}>On Screen Occurances</div>
-        <div>{RenderTimelineBar(on_screen_item, time)}</div>
+        <div>
+          <TimelineBar char={on_screen_item} time={time} />
+        </div>
       </div>
       <button
         className="ost_tracking_element"
@@ -187,16 +203,15 @@ function AddItem(
     appearances: [new_app],
     color: "black",
   };
-  chars.push(new_item);
-  setChars(chars);
+
+  setChars([...chars, new_item]);
 }
 
 function RemoveItem(
   chars: OnScreenItem[],
   setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
 ) {
-  chars.pop();
-  setChars(chars);
+  setChars(chars.slice(0, chars.length - 1));
 }
 
 export default function App() {
