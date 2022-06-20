@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -9,13 +9,13 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 h1 {
   margin: 10px;
-  color:whitesmoke;
+  color: whitesmoke;
   text-shadow: 2px 2px rgb(93, 93, 69);
 }
 
@@ -25,7 +25,7 @@ h1 {
 
 .item_name {
   background: transparent;
-  border:none;
+  border: none;
   border-bottom: 1px solid black;
   width: 25%;
   color: beige;
@@ -65,8 +65,7 @@ h1 {
 }
 
 #ost_item_data {
-  width: 90%;
-  max-width: 92.5%;
+  flex: 1;
 }
 
 #ost_item_button {
@@ -95,10 +94,10 @@ h1 {
   line-height: 90px;
 }
 
-#adder:hover  {
+#adder:hover {
   background: rgb(125, 175, 125);
 }
 
-#subtracter:hover  {
+#subtracter:hover {
   background: rgb(175, 125, 125);
 }
