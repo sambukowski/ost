@@ -1,7 +1,7 @@
 //satchel's original code
 //https://codesandbox.io/s/stoic-bose-qhc9cf?file=/src/App.tsx:0-2846
 
-import { sign } from "crypto";
+import { time } from "console";
 import { useState, useEffect } from "react";
 
 interface OnScreenItem {
@@ -15,80 +15,70 @@ interface Appearance {
   end?: number;
 }
 
-function RenderGlobalClock(
-  playing: boolean,
-  time: number,
-  setPlaying: React.Dispatch<React.SetStateAction<boolean>>
-) {
+function RenderGlobalClock(props: {
+  playing: boolean;
+  time: number;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <div>
       <div className="ost_tracking_element" id="ost_global_clock">
         {/* render the clock with the formate hh:mm:ss */}
-        {new Date(time * 1000).toISOString().substring(11, 19)}
+        {new Date(props.time * 1000).toISOString().substring(11, 19)}
       </div>
       <div
         className="ost_tracking_element"
         id="ost_global_clock_start_stop"
-        onClick={() => setPlaying(!playing)}
+        onClick={() => props.setPlaying(!props.playing)}
       >
-        {playing ? "Pause" : "Play"}
+        {props.playing ? "Pause" : "Play"}
       </div>
     </div>
   );
 }
 
-function TimelineBar(props: { char: OnScreenItem; time: number }) {
+function RenderAppearance(props: {
+  app: Appearance;
+  time: number;
+  color: string;
+}) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        background: props.color,
+        left: (props.app.start / props.time) * 100 + "%",
+        top: 0,
+        height: 10,
+        width:
+          (((props.app.end ?? props.time) - props.app.start) / props.time) *
+            100 +
+          "%",
+        borderRadius: 5,
+      }}
+    />
+  );
+}
+
+function TimelineBar(props: { on_screen_item: OnScreenItem; time: number }) {
   return (
     <div style={{ display: "flex" }}>
       <div
-        key={props.char.name}
-        style={{ position: "relative", flex: 1, margin: 5 }}
+        key={props.on_screen_item.name}
+        style={{ position: "relative", flex: 1, padding: 2, margin: 2 }}
       >
-        {props.char.appearances.map((app, i) => {
-          return (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                background: props.char.color,
-                left: (app.start / props.time) * 100 + "%",
-                top: 0,
-                height: 10,
-                width:
-                  (((app.end ?? props.time) - app.start) / props.time) * 100 +
-                  "%",
-                borderRadius: 5,
-              }}
-            />
-          );
-        })}
+        {props.on_screen_item.appearances.map((app, i) => (
+          <RenderAppearance
+            key={i}
+            app={app}
+            time={props.time}
+            color={props.on_screen_item.color}
+          />
+        ))}
       </div>
     </div>
   );
 }
-
-// function RenderHistogramBar(char: OnScreenItem, time: number) {
-//   let sum = 0;
-//   for (let app of char.appearances) {
-//     if (app.end) {
-//       sum += app.end - app.start;
-//     } else {
-//       sum += time - app.start;
-//     }
-//   }
-//   return (
-//     <div
-//       style={{
-//         position: "absolute",
-//         background: char.color,
-//         left: char.appearances[0].start,
-//         top: 5,
-//         height: 10,
-//         width: ((sum - char.appearances[0].start) / time) * 100 + "%",
-//       }}
-//     />
-//   );
-// }
 
 function CalcTotalOnScreenPercentage(
   on_screen_item: OnScreenItem,
@@ -105,8 +95,25 @@ function CalcTotalOnScreenPercentage(
   return (sum / time) * 100;
 }
 
+function HistogramBar(props: { on_screen_item: OnScreenItem; time: number }) {
+  const hist: Appearance = {
+    start: 0,
+    end: CalcTotalOnScreenPercentage(props.on_screen_item, props.time),
+  };
+  return (
+    <div style={{ display: "flex" }}>
+      <div style={{ position: "relative", flex: 1, padding: 2, margin: 2 }}>
+        <RenderAppearance
+          app={hist}
+          time={props.time}
+          color={props.on_screen_item.color}
+        />
+      </div>
+    </div>
+  );
+}
+
 function UpdateOSIdata(
-  current: Appearance | undefined,
   on_screen_item: OnScreenItem,
   chars: OnScreenItem[],
   time: number,
@@ -130,60 +137,53 @@ function UpdateOSIdata(
   setChars(newChars);
 }
 
-function RenderOnScreenItem(
-  on_screen_item: OnScreenItem,
-  time: number,
-  chars: OnScreenItem[],
-  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
-) {
-  const current = on_screen_item.appearances.find((app) => !app.end);
+function RenderOnScreenItem(props: {
+  on_screen_item: OnScreenItem;
+  time: number;
+  chars: OnScreenItem[];
+  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+}) {
+  const current = props.on_screen_item.appearances.find((app) => !app.end);
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
       <div className="ost_tracking_element" id="ost_item_data">
         {/* TODO: need to figure out how update the name */}
         <input
           className="item_name"
           type="text"
-          value={on_screen_item.name}
+          value={props.on_screen_item.name}
           onChange={(e) => {
-            console.log("yee", e.target.value);
-            let newChars = [...chars];
-            newChars[chars.indexOf(on_screen_item)] = {
-              ...on_screen_item,
+            let newChars = [...props.chars];
+            newChars[props.chars.indexOf(props.on_screen_item)] = {
+              ...props.on_screen_item,
               name: e.target.value,
             };
-            setChars(newChars);
+            props.setChars(newChars);
           }}
           id="osi_name"
         />
-        {/* {(on_screen_item.name = document.getElementById("osi_name").value)} */}
         <div style={{ marginLeft: 5 }}>
           Percent of total time on screen{" "}
-          {CalcTotalOnScreenPercentage(on_screen_item, time).toFixed(2)}%
+          {CalcTotalOnScreenPercentage(
+            props.on_screen_item,
+            props.time
+          ).toFixed(2)}
+          %
         </div>
-        {/* percent total screen time histogram bar */}
-        <div style={{ position: "relative", width: "100%", padding: 10 }}>
-          <div
-            style={{
-              background: "orange",
-              height: 10,
-              borderRadius: 5,
-              // TODO: why does below have to 99.5 instead of 100% to look right?
-              // margin maybe?
-              width: CalcTotalOnScreenPercentage(on_screen_item, time) + "%",
-            }}
-          />
-        </div>
+        <HistogramBar on_screen_item={props.on_screen_item} time={props.time} />
         <div style={{ marginLeft: 5 }}>On Screen Occurances</div>
-        <div>
-          <TimelineBar char={on_screen_item} time={time} />
-        </div>
+        <TimelineBar on_screen_item={props.on_screen_item} time={props.time} />
       </div>
       <button
         className="ost_tracking_element"
         id="ost_item_button"
         onClick={() =>
-          UpdateOSIdata(current, on_screen_item, chars, time, setChars)
+          UpdateOSIdata(
+            props.on_screen_item,
+            props.chars,
+            props.time,
+            props.setChars
+          )
         }
       >
         {current ? "👁" : "--"}
@@ -246,6 +246,7 @@ export default function App() {
 
   const [on_screen, set_on_screen] = useState(true);
 
+  // update the global clock
   useEffect(() => {
     if (playing) {
       const int = setInterval(() => setTime((t) => t + 1), 1000);
@@ -256,11 +257,20 @@ export default function App() {
   return (
     <div>
       <h1>On Screen Timer</h1>
-      {RenderGlobalClock(playing, time, setPlaying)}
-      {chars.map((char) => {
-        return RenderOnScreenItem(char, time, chars, setChars);
-      })}
-      {/* TODO: figure out why these buttons only update immediately when the timer is running*/}
+      <RenderGlobalClock
+        playing={playing}
+        time={time}
+        setPlaying={setPlaying}
+      />
+      {chars.map((char, i) => (
+        <RenderOnScreenItem
+          key={i}
+          on_screen_item={char}
+          time={time}
+          chars={chars}
+          setChars={setChars}
+        />
+      ))}
       <div
         className="item_adder"
         id="adder"
@@ -275,44 +285,6 @@ export default function App() {
       >
         -
       </div>
-
-      {/* the original logic below */}
-      {/* <div>
-        {chars.map((char, i) => {
-          const current = char.appearances.find((app) => !app.end);
-          return (
-            <div key={i} style={{ display: "flex", margin: 10 }}>
-              <button
-                onClick={() => {
-                  const newChars = [...chars],
-                    newAppearances = current
-                      ? char.appearances.map((app) =>
-                          app.start === current.start
-                            ? { ...app, end: time }
-                            : app
-                        )
-                      : [...char.appearances, { start: time }];
-                  newChars[i] = {
-                    ...char,
-                    appearances: newAppearances,
-                  };
-                  setChars(newChars);
-                }}
-              >
-                {current ? "leave" : "enter"}
-              </button>
-              {char.name}
-            </div>
-          );
-        })}
-      </div> */}
-      {/* the original ost bars */}
-      {/* <div style={{ width: "100%" }}>
-        {chars.map((char) => {
-          return RenderTimelineBar(char, time);
-        })}
-      </div> */}
-      {/* the item right below this prints the dict */}
       <div>
         <pre>{JSON.stringify(chars, null, 2)}</pre>
       </div>

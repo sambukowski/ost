@@ -30,14 +30,14 @@ h1 {
   width: 25%;
   color: beige;
   font-size: 25px;
-  margin: 5px;
 }
 
 .ost_tracking_element {
   background: gray;
-  height: 155px;
-  margin: 10px;
-  padding: 10px;
+  height: 115px;
+  margin: 5px;
+  padding: 5px;
+  padding-left: 10px;
   border-radius: 15px;
   border-style: solid;
   border-width: 3px;
@@ -69,7 +69,7 @@ h1 {
 }
 
 #ost_item_button {
-  width: 150px;
+  width: 120px;
   font-size: 110px;
   padding: 0px;
   text-align: center;
@@ -79,8 +79,8 @@ h1 {
 
 .item_adder {
   background: gray;
-  height: 120px;
-  width: 120px;
+  height: 80px;
+  width: 80px;
   margin: 10px;
   border-radius: 15px;
   border-style: solid;
@@ -88,10 +88,10 @@ h1 {
   border-color: black;
   display: inline-block;
   vertical-align: top;
-  font-size: 100px;
+  font-size: 80px;
   text-align: center;
   vertical-align: middle;
-  line-height: 90px;
+  line-height: 55px;
 }
 
 #adder:hover {
