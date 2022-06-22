@@ -2,7 +2,7 @@
 //https://codesandbox.io/s/stoic-bose-qhc9cf?file=/src/App.tsx:0-2846
 
 import { time } from "console";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface OnScreenItem {
   name: string;
@@ -13,6 +13,22 @@ interface OnScreenItem {
 interface Appearance {
   start: number;
   end?: number;
+}
+
+function download(filename: string, text: string) {
+  const element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  );
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }
 
 function RenderGlobalClock(props: {
@@ -98,7 +114,9 @@ function CalcTotalOnScreenPercentage(
 function HistogramBar(props: { on_screen_item: OnScreenItem; time: number }) {
   const hist: Appearance = {
     start: 0,
-    end: CalcTotalOnScreenPercentage(props.on_screen_item, props.time),
+    end:
+      (CalcTotalOnScreenPercentage(props.on_screen_item, props.time) / 100) *
+      props.time,
   };
   return (
     <div style={{ display: "flex" }}>
@@ -214,10 +232,34 @@ function RemoveItem(
   setChars(chars.slice(0, chars.length - 1));
 }
 
+// function Upload({ children }) {
+//   const [files, setFiles] = useState("");
+
+//   const handleChange = e => {
+//     const fileReader = new FileReader();
+//     fileReader.readAsText(e.target.files[0], "UTF-8");
+//     fileReader.onload = e => {
+//       console.log("e.target.result", e.target.result);
+//       setFiles(e.target.result);
+//     };
+//   };
+// function handleChange(props: {
+//   e: Blob;
+//   setFiles: React.Dispatch<React.SetStateAction<string>>;
+// }) {
+//   const fileReader = new FileReader();
+//   fileReader.readAsText(props.e, "UTF-8");
+//   fileReader.onload = (e) => {
+//     console.log("e.target.result", e.target.result);
+//     setFiles(e.target.result);
+//   };
+// }
+
 export default function App() {
   // const [hist_value, set_hist_value] = useState(109.5); // largest the value can be
   const [time, setTime] = useState(200),
     [playing, setPlaying] = useState(false),
+    [input_file, setFiles] = useState(""),
     [chars, setChars] = useState<OnScreenItem[]>([
       {
         name: "Billy",
@@ -244,8 +286,6 @@ export default function App() {
       },
     ]);
 
-  const [on_screen, set_on_screen] = useState(true);
-
   // update the global clock
   useEffect(() => {
     if (playing) {
@@ -253,7 +293,7 @@ export default function App() {
       return () => clearInterval(int);
     }
   }, [playing]);
-  // quick ssh key test
+
   return (
     <div>
       <h1>On Screen Timer</h1>
@@ -262,6 +302,12 @@ export default function App() {
         time={time}
         setPlaying={setPlaying}
       />
+      {/* Add a title for whatever you are watching */}
+      <button
+        onClick={() => download("test.json", JSON.stringify(chars, null, 2))}
+      >
+        download
+      </button>
       {chars.map((char, i) => (
         <RenderOnScreenItem
           key={i}
