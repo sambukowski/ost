@@ -143,6 +143,7 @@ function UpdateOSIdata(
     last = on_screen_item.appearances[lastIndex];
   const newApps = [...on_screen_item.appearances];
 
+  // TODO: think about this logic a little more
   if (!last.end) newApps[lastIndex] = { ...last, end: time };
   else if (last.end === time) newApps[lastIndex] = { ...last, end: undefined };
   else newApps.push({ start: time });
@@ -232,34 +233,10 @@ function RemoveItem(
   setChars(chars.slice(0, chars.length - 1));
 }
 
-// function Upload({ children }) {
-//   const [files, setFiles] = useState("");
-
-//   const handleChange = e => {
-//     const fileReader = new FileReader();
-//     fileReader.readAsText(e.target.files[0], "UTF-8");
-//     fileReader.onload = e => {
-//       console.log("e.target.result", e.target.result);
-//       setFiles(e.target.result);
-//     };
-//   };
-// function handleChange(props: {
-//   e: Blob;
-//   setFiles: React.Dispatch<React.SetStateAction<string>>;
-// }) {
-//   const fileReader = new FileReader();
-//   fileReader.readAsText(props.e, "UTF-8");
-//   fileReader.onload = (e) => {
-//     console.log("e.target.result", e.target.result);
-//     setFiles(e.target.result);
-//   };
-// }
-
 export default function App() {
-  // const [hist_value, set_hist_value] = useState(109.5); // largest the value can be
   const [time, setTime] = useState(200),
     [playing, setPlaying] = useState(false),
-    [input_file, setFiles] = useState(""),
+    [files, setFiles] = useState(""),
     [chars, setChars] = useState<OnScreenItem[]>([
       {
         name: "Billy",
@@ -286,6 +263,15 @@ export default function App() {
       },
     ]);
 
+  // on change handler for loading in json data
+  const Upload = (e: any) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e: any) => {
+      setFiles(e.target.result);
+    };
+  };
+
   // update the global clock
   useEffect(() => {
     if (playing) {
@@ -302,12 +288,12 @@ export default function App() {
         time={time}
         setPlaying={setPlaying}
       />
-      {/* Add a title for whatever you are watching */}
       <button
         onClick={() => download("test.json", JSON.stringify(chars, null, 2))}
       >
         download
       </button>
+      <input type="file" onChange={Upload} />
       {chars.map((char, i) => (
         <RenderOnScreenItem
           key={i}
@@ -331,6 +317,8 @@ export default function App() {
       >
         -
       </div>
+      <div>{files}</div>
+
       <div>
         <pre>{JSON.stringify(chars, null, 2)}</pre>
       </div>
