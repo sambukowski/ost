@@ -37,7 +37,7 @@ function RenderGlobalClock(props: {
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <div style={{ flex: 0.33 }}>
+    <div style={{ flex: 1, display: "flex" }}>
       <div className="ost_tracking_element" id="ost_global_clock">
         {/* render the clock with the formate hh:mm:ss */}
         {new Date(props.time * 1000).toISOString().substring(11, 19)}
@@ -165,10 +165,10 @@ function MediaTitle(props: {
     <div
       className="ost_tracking_element"
       id="ost_media_title"
-      style={{ flex: 0.33 }}
+      style={{ flex: 2 }}
     >
       <input
-        style={{ flex: 1 }}
+        // style={{ flex: 1 }}
         className="media_title"
         type="text"
         value={props.title}
@@ -196,9 +196,10 @@ function SaveLoad(props: {
     };
   };
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", flex: 1, justifyContent: "right" }}>
       <button
         className="ost_tracking_element"
+        id="ost_global_clock_start_stop"
         style={{ flex: 1 }}
         onClick={() =>
           download(
@@ -209,7 +210,13 @@ function SaveLoad(props: {
       >
         Save
       </button>
-      <label htmlFor="loadOSTfile" className="ost_tracking_element">
+
+      <label
+        htmlFor="loadOSTfile"
+        className="ost_tracking_element"
+        id="ost_global_clock_start_stop"
+        style={{ flex: 1, lineHeight: 1.1 }}
+      >
         <input
           type="file"
           id="loadOSTfile"
@@ -357,7 +364,7 @@ export default function App() {
   return (
     <div>
       <h1>On Screen Timer</h1>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
         <RenderGlobalClock
           playing={playing}
           time={time}
