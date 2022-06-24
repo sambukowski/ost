@@ -123,8 +123,42 @@ export function RenderOnScreenItem(props: {
   setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
 }) {
   const current = props.on_screen_item.appearances.find((app) => !app.end);
+
+  const setColor = (e: any) => {
+    let newChars = [...props.chars];
+    newChars[props.chars.indexOf(props.on_screen_item)] = {
+      ...props.on_screen_item,
+      color: e.target.value,
+    };
+    props.setChars(newChars);
+  };
+
   return (
     <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
+      <div
+        className="ost_tracking_element"
+        style={{
+          flex: 0.03,
+          background: props.on_screen_item.color,
+          padding: 0,
+        }}
+      >
+        <label htmlFor="pickColor" style={{ flex: 0.04, display: "flex" }}>
+          <input
+            type="color"
+            id="pickColor"
+            name="pickColor"
+            value={props.on_screen_item.color}
+            onChange={setColor}
+            style={{
+              flex: 1,
+              background: props.on_screen_item.color,
+              height: 115,
+              //   margin: 5,
+            }}
+          />
+        </label>
+      </div>
       <div className="ost_tracking_element" id="ost_item_data">
         <input
           className="item_name"

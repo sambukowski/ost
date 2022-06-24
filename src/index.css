@@ -26,10 +26,18 @@ h1 {
 input[type="file"] {
   display: none;
 }
+input[type="color"] {
+	/* display: flex; */
+  padding: 0;
+  padding-left: 0px;
+	/* border: none; */
+  opacity: 0;
+}
 
 .item_name {
   background: transparent;
   border: none;
+  outline: none;
   border-bottom: 1px solid black;
   width: 25%;
   color: beige;

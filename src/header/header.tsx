@@ -1,21 +1,5 @@
 import { OnScreenItem } from "../data-structures/ost-data-structures";
 
-function download(filename: string, text: string) {
-  const element = document.createElement("a");
-  element.setAttribute(
-    "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
-  );
-  element.setAttribute("download", filename);
-
-  element.style.display = "none";
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-}
-
 function RenderGlobalClock(props: {
   playing: boolean;
   time: number;
@@ -63,6 +47,22 @@ function MediaTitle(props: {
   );
 }
 
+function Download(filename: string, text: string) {
+  const element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  );
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
 function SaveLoad(props: {
   title: string;
   time: number;
@@ -77,6 +77,7 @@ function SaveLoad(props: {
       props.setFiles(e.target.result);
     };
   };
+
   return (
     <div style={{ display: "flex", flex: 1, justifyContent: "right" }}>
       <button
@@ -84,7 +85,7 @@ function SaveLoad(props: {
         id="ost_global_clock_start_stop"
         style={{ flex: 1 }}
         onClick={() =>
-          download(
+          Download(
             props.title.replace(/\s/g, "-") + "[" + props.time + "].json",
             JSON.stringify(props.chars, null, 2)
           )
