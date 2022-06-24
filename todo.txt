@@ -1,0 +1,10 @@
+TODO: set up the default chars
+TODO: set up a data structure for the whole ost project
+    - title, length, clock value
+TODO: enhance the export
+TODO: make the file loading more robust
+    - error checking for input file
+TODO: color picker for OSIs
+    - make this a block on the far left, click to pull up a color picker
+TODO: ost timeline image exporter
+TODO: SVG open eye and closing eye for visability buttons
