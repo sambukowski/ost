@@ -23,6 +23,10 @@ h1 {
   box-sizing: border-box;
 }
 
+input[type="file"] {
+  display: none;
+}
+
 .item_name {
   background: transparent;
   border: none;
@@ -46,6 +50,13 @@ h1 {
   vertical-align: top;
 }
 
+.media_title {
+  background: transparent;
+  border: none;
+  color: beige;
+  font-size: 50px;
+}
+
 #ost_global_clock {
   height: 75px;
   width: 250px;
@@ -58,6 +69,14 @@ h1 {
 #ost_global_clock_start_stop {
   height: 75px;
   width: 200px;
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 45px;
+}
+
+#ost_media_title {
+  height: 75px;
   font-size: 50px;
   text-align: center;
   vertical-align: middle;
