@@ -1,3 +1,12 @@
+TODO: global cursor?
+    - ititially let you go back and figure out events
+    - go back and update screen time later
+    - EDIT mode? toggle what things can be changed and whatnot with a button that appears?
+TODO: item specific events?
+    - deaths
+    - births
+    - did something, got something, or lost something important?
+    - little buttons added to each OSI
 TODO: make the file loading more robust
     - error checking for input file
 TODO: ost timeline image exporter

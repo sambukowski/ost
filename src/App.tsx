@@ -39,10 +39,10 @@ function AddItem(
   chars: OnScreenItem[],
   setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
 ) {
-  const new_app: Appearance = { start: time };
+  // const new_app: Appearance = { start: time };
   const new_item: OnScreenItem = {
     name: "New Item",
-    appearances: [new_app],
+    appearances: [],
     color: generateRandomColor(),
   };
 
