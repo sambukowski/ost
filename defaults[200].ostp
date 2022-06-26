@@ -1,0 +1,57 @@
+{
+  "title": "defaults",
+  "time": 200,
+  "items": [
+    {
+      "name": "Billy",
+      "appearances": [
+        {
+          "start": 0,
+          "end": 10
+        },
+        {
+          "start": 30,
+          "end": 60
+        },
+        {
+          "start": 65,
+          "end": 75
+        },
+        {
+          "start": 80,
+          "end": 110
+        }
+      ],
+      "color": "blue"
+    },
+    {
+      "name": "willy",
+      "appearances": [
+        {
+          "start": 0,
+          "end": 200
+        }
+      ],
+      "color": "green"
+    },
+    {
+      "name": "killy",
+      "appearances": [
+        {
+          "start": 1,
+          "end": 2
+        },
+        {
+          "start": 15,
+          "end": 75
+        }
+      ],
+      "color": "orange"
+    },
+    {
+      "name": "empty",
+      "appearances": [],
+      "color": "pink"
+    }
+  ]
+}

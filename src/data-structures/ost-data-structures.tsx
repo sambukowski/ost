@@ -8,3 +8,9 @@ export interface Appearance {
   start: number;
   end?: number;
 }
+
+export interface OSTproject {
+  title: string;
+  time: number;
+  items: OnScreenItem[];
+}

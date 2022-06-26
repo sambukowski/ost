@@ -1,10 +1,18 @@
-TODO: set up the default chars
-TODO: set up a data structure for the whole ost project
-    - title, length, clock value
-TODO: enhance the export
 TODO: make the file loading more robust
     - error checking for input file
+TODO: ost timeline image exporter
+    - this needs a "nothing is tracked" option to add an additonal bar
+TODO: SVG open eye and closing eye for visability buttons
+TODO: secondary array of "events" so that you can tag stuff you find interesting throughout 
+    - basically soundcloud timed comments 
+    - thin bar below header, add button in the same spot as the color picker?
+TODO: wrap the whole thing with electron
+----------------
+done: set up the default chars
+done: set up a data structure for the whole ost project
+    - title, length, clock value
+done: enhance the export
+done: finish loading files
 done: color picker for OSIs
     - make this a block on the far left, click to pull up a color picker
-TODO: ost timeline image exporter
-TODO: SVG open eye and closing eye for visability buttons
+done: custom file extention? ostp (on screen timer project)

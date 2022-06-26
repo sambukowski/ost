@@ -1,4 +1,7 @@
-import { OnScreenItem } from "../data-structures/ost-data-structures";
+import {
+  OnScreenItem,
+  OSTproject,
+} from "../data-structures/ost-data-structures";
 
 function RenderGlobalClock(props: {
   playing: boolean;
@@ -30,7 +33,7 @@ function MediaTitle(props: {
     <div
       className="ost_tracking_element"
       id="ost_media_title"
-      style={{ flex: 3 }}
+      style={{ flex: 10 }}
     >
       <input
         // style={{ flex: 1 }}
@@ -63,18 +66,37 @@ function Download(filename: string, text: string) {
   document.body.removeChild(element);
 }
 
+function BuildOSTproject(
+  title: string,
+  time: number,
+  items: OnScreenItem[]
+): OSTproject {
+  const proj: OSTproject = { title: title, time: time, items: items };
+  return proj;
+}
+
 function SaveLoad(props: {
-  title: string;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   time: number;
-  chars: OnScreenItem[];
-  setFiles: React.Dispatch<React.SetStateAction<string>>;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  items: OnScreenItem[];
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  file: string;
+  setFile: React.Dispatch<React.SetStateAction<string>>;
 }) {
   // onChange handler for loading in json data
   const Upload = (e: any) => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e: any) => {
-      props.setFiles(e.target.result);
+      props.setFile(e.target.result);
+      let proj: OSTproject = JSON.parse(e.target.result);
+      props.setPlaying(false);
+      props.setTitle(proj.title);
+      props.setTime(proj.time);
+      props.setItems(proj.items);
     };
   };
 
@@ -86,8 +108,12 @@ function SaveLoad(props: {
         style={{ flex: 1 }}
         onClick={() =>
           Download(
-            props.title.replace(/\s/g, "-") + "[" + props.time + "].json",
-            JSON.stringify(props.chars, null, 2)
+            props.title.replace(/\s/g, "-") + "[" + props.time + "].ostp",
+            JSON.stringify(
+              BuildOSTproject(props.title, props.time, props.items),
+              null,
+              2
+            )
           )
         }
       >
@@ -114,12 +140,15 @@ function SaveLoad(props: {
 
 export function Header(props: {
   playing: boolean;
-  time: number;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
-  chars: OnScreenItem[];
-  setFiles: React.Dispatch<React.SetStateAction<string>>;
+  items: OnScreenItem[];
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  file: string;
+  setFile: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
@@ -130,10 +159,15 @@ export function Header(props: {
       />
       <MediaTitle title={props.title} setTitle={props.setTitle} />
       <SaveLoad
-        title={props.title}
+        setPlaying={props.setPlaying}
         time={props.time}
-        chars={props.chars}
-        setFiles={props.setFiles}
+        setTime={props.setTime}
+        title={props.title}
+        setTitle={props.setTitle}
+        items={props.items}
+        setItems={props.setItems}
+        file={props.file}
+        setFile={props.setFile}
       />
     </div>
   );
