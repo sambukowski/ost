@@ -1,3 +1,15 @@
+TODO: when you hover over an OSI it shows what "time" the cursor is additonal
+TODO: for export options, combine OSIs
+    - for instance Batman/Bruce Wayne can get combined into "one"
+    - just one color? or keep the original colors
+TODO: buttons to change order of OSIs?
+TODO: drag and drop OSIs?
+    - this would be better than buttons
+TODO: the png export should sort OSIs by percent screen time from top down
+TODO: the exporter is on a different tab?
+    - i should figure out tabs in general
+TODO: the OST header should be styled like the credits in Fight Club
+    - white letters, blue shadow, correct font
 TODO: global cursor?
     - ititially let you go back and figure out events
     - go back and update screen time later
@@ -10,7 +22,11 @@ TODO: item specific events?
 TODO: make the file loading more robust
     - error checking for input file
 TODO: ost timeline image exporter
-    - this needs a "nothing is tracked" option to add an additonal bar
+    Features:
+    TODO: needs a "nothing is tracked" option to add an additonal bar
+    TODO: choose to show the names or not
+        - maybe a couple different places? left side, right, both, centered?
+    TODO: save the export configuration in the .ostp file
 TODO: SVG open eye and closing eye for visability buttons
 TODO: secondary array of "events" so that you can tag stuff you find interesting throughout 
     - basically soundcloud timed comments 
