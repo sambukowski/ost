@@ -1,22 +1,33 @@
+TODO: hot keys
+    - allow for toggling on and off OSIs with keyboard keys
+    - the hotkeys will always stay the same even if the order of the OSIs changes
+    TODO: have tab show the hotkeys for all items on screen 
+        - like the overwatch team info screen
+TODO: you can load several different OSTPs at the same time and merge
+TODO: when exporting you can choose to only export specific OSIs
 TODO: when you hover over an OSI it shows what "time" the cursor is additonal
 TODO: for export options, combine OSIs
     - for instance Batman/Bruce Wayne can get combined into "one"
     - just one color? or keep the original colors
-TODO: buttons to change order of OSIs?
-TODO: drag and drop OSIs?
-    - this would be better than buttons
+TODO: Update OSI order:
+    TODO: buttons or...
+    TODO: drag and drop OSIs?
+        - this would be better than buttons?
 TODO: the png export should sort OSIs by percent screen time from top down
 TODO: the exporter is on a different tab?
     - i should figure out tabs in general
 TODO: the OST header should be styled like the credits in Fight Club
     - white letters, blue shadow, correct font
-TODO: global cursor?
+TODO: global cursor? - in the editor
     - ititially let you go back and figure out events
     - go back and update screen time later
     - EDIT mode? toggle what things can be changed and whatnot with a button that appears?
-TODO: item specific events?
+TODO: OSI EVENTS
+    - basically soundcloud timed comments 
+    - thin bar below header, add button in the same spot as the color picker?
     - deaths
     - births
+    - color change option?
     - did something, got something, or lost something important?
     - little buttons added to each OSI
 TODO: make the file loading more robust
@@ -28,9 +39,6 @@ TODO: ost timeline image exporter
         - maybe a couple different places? left side, right, both, centered?
     TODO: save the export configuration in the .ostp file
 TODO: SVG open eye and closing eye for visability buttons
-TODO: secondary array of "events" so that you can tag stuff you find interesting throughout 
-    - basically soundcloud timed comments 
-    - thin bar below header, add button in the same spot as the color picker?
 TODO: wrap the whole thing with electron
 ----------------
 done: set up the default chars
