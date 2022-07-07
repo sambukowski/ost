@@ -136,7 +136,7 @@ export function RenderOnScreenItem(props: {
   return (
     <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
       <div
-        className="ost_tracking_element"
+        className="ost_tracking_element ost_visual"
         style={{
           flex: 0.03,
           background: props.on_screen_item.color,
@@ -159,7 +159,7 @@ export function RenderOnScreenItem(props: {
           />
         </label>
       </div>
-      <div className="ost_tracking_element" id="ost_item_data">
+      <div className="ost_tracking_element ost_visual" id="ost_item_data">
         <input
           className="item_name"
           type="text"
@@ -187,7 +187,7 @@ export function RenderOnScreenItem(props: {
         <TimelineBar on_screen_item={props.on_screen_item} time={props.time} />
       </div>
       <button
-        className="ost_tracking_element"
+        className="ost_tracking_element ost_visual"
         id="ost_item_button"
         onClick={() =>
           UpdateOSIdata(

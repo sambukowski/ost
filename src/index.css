@@ -43,10 +43,8 @@ input[type="color"] {
   color: beige;
   font-size: 25px;
 }
-
-.ost_tracking_element {
+.ost_visual {
   background: gray;
-  height: 115px;
   margin: 5px;
   padding: 5px;
   padding-left: 10px;
@@ -56,6 +54,10 @@ input[type="color"] {
   border-color: black;
   display: inline-block;
   vertical-align: top;
+}
+
+.ost_tracking_element {
+  height: 115px;
 }
 
 .media_title {

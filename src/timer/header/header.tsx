@@ -10,12 +10,12 @@ function RenderGlobalClock(props: {
 }) {
   return (
     <div style={{ flex: 1, display: "flex" }}>
-      <div className="ost_tracking_element" id="ost_global_clock">
+      <div className="ost_tracking_element ost_visual" id="ost_global_clock">
         {/* render the clock with the formate hh:mm:ss */}
         {new Date(props.time * 1000).toISOString().substring(11, 19)}
       </div>
       <div
-        className="ost_tracking_element"
+        className="ost_tracking_element ost_visual"
         id="ost_global_clock_start_stop"
         onClick={() => props.setPlaying(!props.playing)}
       >
@@ -31,7 +31,7 @@ function MediaTitle(props: {
 }) {
   return (
     <div
-      className="ost_tracking_element"
+      className="ost_tracking_element ost_visual"
       id="ost_media_title"
       style={{ flex: 10 }}
     >
@@ -103,7 +103,7 @@ function SaveLoad(props: {
   return (
     <div style={{ display: "flex", flex: 1, justifyContent: "right" }}>
       <button
-        className="ost_tracking_element"
+        className="ost_tracking_element ost_visual"
         id="ost_global_clock_start_stop"
         style={{ flex: 1 }}
         onClick={() =>
@@ -121,7 +121,7 @@ function SaveLoad(props: {
       </button>
       <label
         htmlFor="loadOSTfile"
-        className="ost_tracking_element"
+        className="ost_tracking_element ost_visual"
         id="ost_global_clock_start_stop"
         style={{ flex: 1, lineHeight: 1.1 }}
       >

@@ -1,62 +1,9 @@
 import { useState, useEffect } from "react";
-import { Header } from "./header/header";
-import {
-  OnScreenItem,
-  Appearance,
-} from "./data-structures/ost-data-structures";
-import { RenderOnScreenItem } from "./on-screen-items/on-screen-item";
-
-function generateRandomColor(): string {
-  const values = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-  ];
-
-  let randColor = "#";
-  for (let i = 0; i < 6; i++) {
-    randColor += values[Math.floor(Math.random() * values.length)];
-  }
-
-  return randColor;
-}
-
-function AddItem(
-  time: number,
-  chars: OnScreenItem[],
-  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
-) {
-  // const new_app: Appearance = { start: time };
-  const new_item: OnScreenItem = {
-    name: "New Item",
-    appearances: [],
-    color: generateRandomColor(),
-  };
-
-  setChars([...chars, new_item]);
-}
-
-function RemoveItem(
-  chars: OnScreenItem[],
-  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
-) {
-  setChars(chars.slice(0, chars.length - 1));
-}
+import { OnScreenItem } from "./timer/data-structures/ost-data-structures";
+import { Timer } from "./timer/timer";
 
 export default function App() {
+  const [tabKey, setTabKey] = useState("timer");
   const [time, setTime] = useState(0),
     [playing, setPlaying] = useState(false),
     [file, setFile] = useState(""),
@@ -79,42 +26,43 @@ export default function App() {
 
   return (
     <div>
-      <h1>On Screen Timer</h1>
-      <Header
-        playing={playing}
-        setPlaying={setPlaying}
-        time={time}
-        setTime={setTime}
-        title={title}
-        setTitle={setTitle}
-        items={items}
-        setItems={setItems}
-        file={file}
-        setFile={setFile}
-      />
-      {items.map((char, i) => (
-        <RenderOnScreenItem
-          key={i}
-          on_screen_item={char}
-          time={time}
-          chars={items}
-          setChars={setItems}
-        />
-      ))}
-      <div
-        className="item_adder"
-        id="adder"
-        onClick={() => AddItem(time, items, setItems)}
-      >
-        +
+      <div style={{ display: "flex" }}>
+        <h1 style={{ flex: 1 }}>On Screen Timer</h1>
+        <button
+          className="ost_visual"
+          style={{ flex: 1 }}
+          onClick={() => setTabKey("timer")}
+        >
+          Timer
+        </button>
+        <button
+          className="ost_visual"
+          style={{ flex: 1 }}
+          onClick={() => setTabKey("exporter")}
+        >
+          Exporter
+        </button>
       </div>
-      <div
-        className="item_adder"
-        id="subtracter"
-        onClick={() => RemoveItem(items, setItems)}
-      >
-        -
-      </div>
+      {
+        {
+          timer: (
+            <Timer
+              playing={playing}
+              setPlaying={setPlaying}
+              time={time}
+              setTime={setTime}
+              title={title}
+              setTitle={setTitle}
+              items={items}
+              setItems={setItems}
+              file={file}
+              setFile={setFile}
+            />
+          ),
+          exporter: <h1>empty</h1>,
+        }[tabKey]
+      }
+
       {/* <div>Time: {time}</div>
       <div>{title}</div>
       <div>{file}</div>
