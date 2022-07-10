@@ -3,6 +3,24 @@ import {
   OSTproject,
 } from "../data-structures/ost-data-structures";
 
+function PlayPauseButton(props: {
+  playing: boolean;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const playing = props.playing;
+  const color = playing ? "#ba4242" : "darkgray";
+  return (
+    <div
+      className="ost_tracking_element ost_visual"
+      id="ost_global_clock_start_stop"
+      onClick={() => props.setPlaying(!props.playing)}
+      style={{ background: color }}
+    >
+      {playing ? "Pause" : "Play"}
+    </div>
+  );
+}
+
 function RenderGlobalClock(props: {
   playing: boolean;
   time: number;
@@ -14,13 +32,7 @@ function RenderGlobalClock(props: {
         {/* render the clock with the formate hh:mm:ss */}
         {new Date(props.time * 1000).toISOString().substring(11, 19)}
       </div>
-      <div
-        className="ost_tracking_element ost_visual"
-        id="ost_global_clock_start_stop"
-        onClick={() => props.setPlaying(!props.playing)}
-      >
-        {props.playing ? "Pause" : "Play"}
-      </div>
+      <PlayPauseButton playing={props.playing} setPlaying={props.setPlaying} />
     </div>
   );
 }
@@ -105,7 +117,7 @@ function SaveLoad(props: {
       <button
         className="ost_tracking_element ost_visual"
         id="ost_global_clock_start_stop"
-        style={{ flex: 1 }}
+        style={{ flex: 1, background: "#bbb068" }}
         onClick={() =>
           Download(
             props.title.replace(/\s/g, "-") + "[" + props.time + "].ostp",
@@ -123,7 +135,7 @@ function SaveLoad(props: {
         htmlFor="loadOSTfile"
         className="ost_tracking_element ost_visual"
         id="ost_global_clock_start_stop"
-        style={{ flex: 1, lineHeight: 1.1 }}
+        style={{ flex: 1, lineHeight: 1.1, background: "#568656" }}
       >
         <input
           type="file"

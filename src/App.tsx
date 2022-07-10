@@ -3,6 +3,7 @@ import { OnScreenItem } from "./timer/data-structures/ost-data-structures";
 import { Timer } from "./timer/timer";
 
 export default function App() {
+  // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
   const [tabKey, setTabKey] = useState("timer");
   const [time, setTime] = useState(0),
     [playing, setPlaying] = useState(false),
@@ -24,8 +25,14 @@ export default function App() {
     }
   }, [playing]);
 
+  // change the page color when on different tabs
+  const page_bg_color = {
+    timer: "#4e4e4e",
+    exporter: "#2f3698",
+  }[tabKey];
+
   return (
-    <div>
+    <div style={{ background: page_bg_color }}>
       <div style={{ display: "flex" }}>
         <h1 style={{ flex: 1 }}>On Screen Timer</h1>
         <button
