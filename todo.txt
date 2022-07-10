@@ -1,7 +1,15 @@
+IN PROGRESS: Tabs:
+    - should the save and load buttons always be present on all tabs?
+    - Timer Tab
+        - The input interface
+    - Exporter Tab
+        - The export interface
+    - need input controls when on different tabs 
+        - when in export, the global timer stops, hotkeys will be different, ect
 TODO: hot keys
     - allow for toggling on and off OSIs with keyboard keys
     - the hotkeys will always stay the same even if the order of the OSIs changes
-    TODO: have tab show the hotkeys for all items on screen 
+    TODO: have tab key show the hotkeys for all items on screen 
         - like the overwatch team info screen
 TODO: you can load several different OSTPs at the same time and merge
 TODO: when exporting you can choose to only export specific OSIs
