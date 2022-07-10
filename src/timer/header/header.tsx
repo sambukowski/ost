@@ -1,7 +1,7 @@
 import {
   OnScreenItem,
   OSTproject,
-} from "../data-structures/ost-data-structures";
+} from "../../data-structures/ost-data-structures";
 
 function PlayPauseButton(props: {
   playing: boolean;

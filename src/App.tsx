@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { OnScreenItem } from "./timer/data-structures/ost-data-structures";
+import { OnScreenItem } from "./data-structures/ost-data-structures";
 import { Timer } from "./timer/timer";
+import { Exporter } from "./exporter/exporter";
 
 export default function App() {
   // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
@@ -52,6 +53,7 @@ export default function App() {
       </div>
       {
         {
+          /* conditionally show each tab */
           timer: (
             <Timer
               playing={playing}
@@ -66,7 +68,7 @@ export default function App() {
               setFile={setFile}
             />
           ),
-          exporter: <h1>empty</h1>,
+          exporter: <Exporter items={items} time={time} />,
         }[tabKey]
       }
 

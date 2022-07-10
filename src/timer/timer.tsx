@@ -2,7 +2,7 @@ import { Header } from "./header/header";
 import {
   OnScreenItem,
   Appearance,
-} from "./data-structures/ost-data-structures";
+} from "../data-structures/ost-data-structures";
 import { RenderOnScreenItem } from "./on-screen-items/on-screen-item";
 
 function generateRandomColor(): string {

@@ -1,7 +1,7 @@
 import {
   OnScreenItem,
   Appearance,
-} from "../data-structures/ost-data-structures";
+} from "../../data-structures/ost-data-structures";
 
 function RenderAppearance(props: {
   app: Appearance;
