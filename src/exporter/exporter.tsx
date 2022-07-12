@@ -29,32 +29,64 @@ function RenderAppearance(props: {
 */
 function DrawAppearance(
   app: Appearance,
+  time: number,
+  y: number,
+  color: string,
   width: number,
   context: CanvasRenderingContext2D
 ) {
-  // draw a given app in the context
+  const start = (app.start / time) * width;
+  const end = ((app.end ?? time) / time) * width;
+  context.strokeStyle = color;
+  context.lineCap = "butt";
+  context.beginPath();
+  context.moveTo(start, y);
+  context.lineTo(end, y);
+  context.stroke();
+  // context.fillText(start.toString(), end + 10, y + 25);
+  // context.fillText(end.toString(), end + 10, y + 45);
+  // context.fillText(time.toString(), end + 10, y + 65);
 }
 
 function DrawAppearances(
   apps: Appearance[],
+  time: number,
+  y: number,
+  color: string,
   width: number,
   context: CanvasRenderingContext2D
 ) {
+  // DrawAppearance(apps[0], time, y, color, width, context);
+  // DrawAppearance(apps[1], time, y, color, width, context);
+  // DrawAppearance(apps[2], time, y, color, width, context);
   // call draw app for all apps
+  for (let osi of apps) {
+    DrawAppearance(osi, time, y, color, width, context);
+  }
+  // apps.map((osi) => {
+  //   DrawAppearance(osi, time, y, color, width, context);
+  // });
 }
 
 function DrawOSI(
   item: OnScreenItem,
+  time: number,
   context: CanvasRenderingContext2D,
-  width: number
+  width: number,
+  zero: { x: number; y: number }
 ) {
   // given an OSI draw all the appearance timeline
+  const start_x = zero.x;
+  const end_x = zero.x + width;
+  const y = zero.y;
+  DrawAppearances(item.appearances, time, zero.y, item.color, width, context);
 }
 
 export function Exporter(props: { items: OnScreenItem[]; time: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const height = 500;
-  const width = 1500;
+  const draw_height = 50;
+  const height = props.items.length * draw_height;
+  const width = 2000;
 
   // collect all the different input options
   // text style:
@@ -88,30 +120,40 @@ export function Exporter(props: { items: OnScreenItem[]; time: number }) {
         // purge the whole canvas before redrawing
         context.clearRect(0, 0, width, height);
         context.fillStyle = "white";
-        context.fillRect(0, 0, width, height);
+        // context.fillRect(0, 0, width, height);
+        context.font = "20px impact";
 
         context.strokeStyle = "black";
         context.fillStyle = "black";
-        context.lineWidth = 10;
 
-        // Wall
-        context.strokeRect(75, 140, 150, 110);
+        context.lineWidth = draw_height;
 
-        // Door
-        context.fillRect(130, 190, 40, 60);
+        var draw_y = draw_height / 2;
+        for (let osi of props.items) {
+          DrawOSI(osi, props.time, context, width, {
+            x: 0,
+            y: draw_y,
+          });
+          draw_y += draw_height;
+        }
+        // // Wall
+        // context.strokeRect(75, 140, 150, 110);
 
-        // Roof
-        context.strokeStyle = "red";
-        context.beginPath();
-        context.moveTo(50, 140);
-        context.lineTo(150, 60);
-        context.lineTo(250, 140);
+        // // Door
+        // context.fillRect(130, 190, 40, 60);
 
-        context.closePath();
-        context.stroke();
+        // // Roof
+        // context.strokeStyle = "red";
+        // context.beginPath();
+        // context.moveTo(50, 140);
+        // context.lineTo(150, 60);
+        // context.lineTo(250, 140);
 
-        context.font = "50px impact";
-        context.fillText("Justa Name", 30, 400);
+        // context.closePath();
+        // context.stroke();
+
+        // context.font = "20px impact";
+        // context.fillText("Justa Name", 30, 400);
       }
     }
   }, []);

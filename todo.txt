@@ -6,6 +6,11 @@ IN PROGRESS: Tabs:
         - The export interface
     - need input controls when on different tabs 
         - when in export, the global timer stops, hotkeys will be different, ect
+TODO: on screen time and in scene time
+    - simultanious info that let's you track when someone is specificly on screen or in the scene
+    - probably need to integrate a player into the OST
+    - get to frame level accuracy for on screen (because someone will ask for it)
+    - do the same for in scene 
 TODO: hot keys
     - allow for toggling on and off OSIs with keyboard keys
     - the hotkeys will always stay the same even if the order of the OSIs changes
