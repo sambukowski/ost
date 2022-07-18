@@ -1,7 +1,8 @@
 export interface OnScreenItem {
+  on_screen_percent: number;
   name: string;
-  appearances: Appearance[];
   color: string;
+  appearances: Appearance[];
 }
 
 export interface Appearance {

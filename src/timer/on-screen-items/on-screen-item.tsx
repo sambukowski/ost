@@ -62,11 +62,12 @@ function CalcTotalOnScreenPercentage(
 }
 
 function HistogramBar(props: { on_screen_item: OnScreenItem; time: number }) {
+  const on_screen_percent =
+    (CalcTotalOnScreenPercentage(props.on_screen_item, props.time) / 100) *
+    props.time;
   const hist: Appearance = {
     start: 0,
-    end:
-      (CalcTotalOnScreenPercentage(props.on_screen_item, props.time) / 100) *
-      props.time,
+    end: on_screen_percent,
   };
   return (
     <div style={{ display: "flex" }}>
@@ -120,7 +121,7 @@ export function RenderOnScreenItem(props: {
   on_screen_item: OnScreenItem;
   time: number;
   chars: OnScreenItem[];
-  setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
 }) {
   const current = props.on_screen_item.appearances.find((app) => !app.end);
 
@@ -130,7 +131,7 @@ export function RenderOnScreenItem(props: {
       ...props.on_screen_item,
       color: e.target.value,
     };
-    props.setChars(newChars);
+    props.setItems(newChars);
   };
 
   return (
@@ -170,7 +171,7 @@ export function RenderOnScreenItem(props: {
               ...props.on_screen_item,
               name: e.target.value,
             };
-            props.setChars(newChars);
+            props.setItems(newChars);
           }}
           id="osi_name"
         />
@@ -194,7 +195,7 @@ export function RenderOnScreenItem(props: {
             props.on_screen_item,
             props.chars,
             props.time,
-            props.setChars
+            props.setItems
           )
         }
       >

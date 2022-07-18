@@ -15,6 +15,7 @@ export default function App() {
         name: "New Item",
         appearances: [],
         color: "red",
+        on_screen_percent: 0,
       },
     ]);
 
@@ -26,26 +27,31 @@ export default function App() {
     }
   }, [playing]);
 
-  // change the page color when on different tabs
-  const page_bg_color = {
-    timer: "#4e4e4e",
-    exporter: "#2f3698",
-  }[tabKey];
+  // highlight which tab is active
+  const inactiveTabColor: string = "gray";
+  const activeTabColor: string = "#c24c50";
 
   return (
-    <div style={{ background: page_bg_color }}>
+    <div>
       <div style={{ display: "flex" }}>
         <h1 style={{ flex: 1 }}>On Screen Timer</h1>
         <button
           className="ost_visual"
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+            background: tabKey === "timer" ? activeTabColor : inactiveTabColor,
+          }}
           onClick={() => setTabKey("timer")}
         >
           Timer
         </button>
         <button
           className="ost_visual"
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+            background:
+              tabKey === "exporter" ? activeTabColor : inactiveTabColor,
+          }}
           onClick={() => setTabKey("exporter")}
         >
           Exporter

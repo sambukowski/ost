@@ -43,6 +43,7 @@ function AddItem(
     name: "New Item",
     appearances: [],
     color: generateRandomColor(),
+    on_screen_percent: 0,
   };
 
   setChars([...chars, new_item]);
@@ -87,7 +88,7 @@ export function Timer(props: {
           on_screen_item={char}
           time={props.time}
           chars={props.items}
-          setChars={props.setItems}
+          setItems={props.setItems}
         />
       ))}
       <div
