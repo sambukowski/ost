@@ -42,6 +42,7 @@ function AddItem(
   const new_item: OnScreenItem = {
     name: "New Item",
     appearances: [],
+    events: [],
     color: generateRandomColor(),
     on_screen_percent: 0,
   };
@@ -67,6 +68,8 @@ export function Timer(props: {
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
   file: string;
   setFile: React.Dispatch<React.SetStateAction<string>>;
+  osi_name_align: string;
+  setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div>
@@ -82,6 +85,31 @@ export function Timer(props: {
         file={props.file}
         setFile={props.setFile}
       />
+      <div
+        style={{ display: "flex", marginLeft: 5, marginRight: 5, height: 85 }}
+      >
+        {/* this first one is the toggle name left and right */}
+        <div
+          className=" ost_visual"
+          style={{
+            flex: 0.6,
+            fontSize: 60,
+            textAlign: "center",
+            verticalAlign: "center",
+            lineHeight: 0.75,
+          }}
+          onClick={() =>
+            props.setOSINameAlign(
+              props.osi_name_align === "left" ? "right" : "left"
+            )
+          }
+        >
+          {props.osi_name_align === "left" ? "<" : ">"}
+        </div>
+        <div className=" ost_visual" style={{ flex: 10 }}></div>
+        <div className=" ost_visual" style={{ flex: 0.5 }}></div>
+        <div className=" ost_visual" style={{ flex: 0.5 }}></div>
+      </div>
       {props.items.map((char, i) => (
         <RenderOnScreenItem
           key={i}
@@ -89,6 +117,7 @@ export function Timer(props: {
           time={props.time}
           chars={props.items}
           setItems={props.setItems}
+          osi_name_align={props.osi_name_align}
         />
       ))}
       <div

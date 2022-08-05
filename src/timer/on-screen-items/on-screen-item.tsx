@@ -122,6 +122,7 @@ export function RenderOnScreenItem(props: {
   time: number;
   chars: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  osi_name_align: string;
 }) {
   const current = props.on_screen_item.appearances.find((app) => !app.end);
 
@@ -133,6 +134,10 @@ export function RenderOnScreenItem(props: {
     };
     props.setItems(newChars);
   };
+
+  // const alignStyle = (style: string) => ({
+  //   text-align: (style == "left") ? 'left' : 'right'
+  // });
 
   return (
     <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
@@ -161,20 +166,46 @@ export function RenderOnScreenItem(props: {
         </label>
       </div>
       <div className="ost_tracking_element ost_visual" id="ost_item_data">
-        <input
-          className="item_name"
-          type="text"
-          value={props.on_screen_item.name}
-          onChange={(e) => {
-            let newChars = [...props.chars];
-            newChars[props.chars.indexOf(props.on_screen_item)] = {
-              ...props.on_screen_item,
-              name: e.target.value,
-            };
-            props.setItems(newChars);
-          }}
-          id="osi_name"
-        />
+        <div style={{ display: "flex", marginRight: 5 }}>
+          {
+            {
+              left: (
+                <input
+                  className="item_name"
+                  type="text"
+                  style={{ flex: 1, textAlign: "left" }}
+                  value={props.on_screen_item.name}
+                  onChange={(e) => {
+                    let newChars = [...props.chars];
+                    newChars[props.chars.indexOf(props.on_screen_item)] = {
+                      ...props.on_screen_item,
+                      name: e.target.value,
+                    };
+                    props.setItems(newChars);
+                  }}
+                  id="osi_name"
+                />
+              ),
+              right: (
+                <input
+                  className="item_name"
+                  type="text"
+                  style={{ flex: 1, textAlign: "right" }}
+                  value={props.on_screen_item.name}
+                  onChange={(e) => {
+                    let newChars = [...props.chars];
+                    newChars[props.chars.indexOf(props.on_screen_item)] = {
+                      ...props.on_screen_item,
+                      name: e.target.value,
+                    };
+                    props.setItems(newChars);
+                  }}
+                  id="osi_name"
+                />
+              ),
+            }[props.osi_name_align]
+          }
+        </div>
         <div style={{ marginLeft: 5 }}>
           Percent of total time on screen{" "}
           {CalcTotalOnScreenPercentage(

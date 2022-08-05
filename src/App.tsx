@@ -6,6 +6,7 @@ import { Exporter } from "./exporter/exporter";
 export default function App() {
   // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
   const [tabKey, setTabKey] = useState("timer");
+  const [osi_name_align, setOSINameAlign] = useState("left");
   const [time, setTime] = useState(0),
     [playing, setPlaying] = useState(false),
     [file, setFile] = useState(""),
@@ -14,6 +15,7 @@ export default function App() {
       {
         name: "New Item",
         appearances: [],
+        events: [],
         color: "red",
         on_screen_percent: 0,
       },
@@ -72,6 +74,8 @@ export default function App() {
               setItems={setItems}
               file={file}
               setFile={setFile}
+              osi_name_align={osi_name_align}
+              setOSINameAlign={setOSINameAlign}
             />
           ),
           exporter: <Exporter items={items} time={time} />,
