@@ -46,7 +46,7 @@ function TimelineBar(props: { on_screen_item: OnScreenItem; time: number }) {
   );
 }
 
-function CalcTotalOnScreenPercentage(
+export function CalcTotalOnScreenPercentage(
   on_screen_item: OnScreenItem,
   time: number
 ): number {

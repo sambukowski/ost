@@ -3,7 +3,10 @@ import {
   OnScreenItem,
   Appearance,
 } from "../data-structures/ost-data-structures";
-import { RenderOnScreenItem } from "./on-screen-items/on-screen-item";
+import {
+  RenderOnScreenItem,
+  CalcTotalOnScreenPercentage,
+} from "./on-screen-items/on-screen-item";
 
 function generateRandomColor(): string {
   const values = [
@@ -34,11 +37,9 @@ function generateRandomColor(): string {
 }
 
 function AddItem(
-  time: number,
   chars: OnScreenItem[],
   setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
 ) {
-  // const new_app: Appearance = { start: time };
   const new_item: OnScreenItem = {
     name: "New Item",
     appearances: [],
@@ -55,6 +56,69 @@ function RemoveItem(
   setChars: React.Dispatch<React.SetStateAction<OnScreenItem[]>>
 ) {
   setChars(chars.slice(0, chars.length - 1));
+}
+
+function sortOSIs(
+  method: string,
+  items: OnScreenItem[],
+  time: number
+): OnScreenItem[] {
+  switch (method) {
+    case "ascending": {
+      const tmp_items = [...items];
+      tmp_items.sort((a, b) => {
+        return (
+          CalcTotalOnScreenPercentage(a, time) -
+          CalcTotalOnScreenPercentage(b, time)
+        );
+      });
+      return tmp_items;
+    }
+    case "decending": {
+      const tmp_items = [...items];
+      tmp_items.sort((a, b) => {
+        return (
+          CalcTotalOnScreenPercentage(b, time) -
+          CalcTotalOnScreenPercentage(a, time)
+        );
+      });
+      return tmp_items;
+    }
+    case "alphabetical-decending": {
+      const tmp_items = [...items];
+      tmp_items.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+      return tmp_items;
+    }
+    case "alphabetical-ascending": {
+      const tmp_items = [...items];
+      tmp_items.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return 1;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
+      });
+      return tmp_items;
+    }
+    default: {
+      break;
+    }
+  }
+  return items;
 }
 
 export function Timer(props: {
@@ -85,6 +149,7 @@ export function Timer(props: {
         file={props.file}
         setFile={props.setFile}
       />
+      {/* TODO: this needs to be moved to its own component */}
       <div
         style={{ display: "flex", marginLeft: 5, marginRight: 5, height: 85 }}
       >
@@ -93,10 +158,11 @@ export function Timer(props: {
           className=" ost_visual"
           style={{
             flex: 0.6,
-            fontSize: 60,
+            fontSize: 80,
             textAlign: "center",
             verticalAlign: "center",
-            lineHeight: 0.75,
+            lineHeight: 0.45,
+            borderColor: "white",
           }}
           onClick={() =>
             props.setOSINameAlign(
@@ -104,11 +170,82 @@ export function Timer(props: {
             )
           }
         >
-          {props.osi_name_align === "left" ? "<" : ">"}
+          {props.osi_name_align === "left" ? "←" : "→"}
         </div>
+        {/* this will eventually be the global event timeline */}
         <div className=" ost_visual" style={{ flex: 10 }}></div>
-        <div className=" ost_visual" style={{ flex: 0.5 }}></div>
-        <div className=" ost_visual" style={{ flex: 0.5 }}></div>
+        {/* sort ascending screen time button */}
+        <div
+          className=" ost_visual"
+          style={{
+            flex: 0.35,
+            fontSize: 60,
+            textAlign: "center",
+            verticalAlign: "center",
+            lineHeight: 0.75,
+            borderColor: "white",
+          }}
+          onClick={() =>
+            props.setItems(sortOSIs("ascending", props.items, props.time))
+          }
+        >
+          ↓
+        </div>
+        {/* sort alphabetically ascending */}
+        <div
+          className=" ost_visual"
+          style={{
+            flex: 0.35,
+            fontSize: 60,
+            textAlign: "center",
+            verticalAlign: "center",
+            lineHeight: 0.75,
+            borderColor: "white",
+          }}
+          onClick={() =>
+            props.setItems(
+              sortOSIs("alphabetical-ascending", props.items, props.time)
+            )
+          }
+        >
+          ∀
+        </div>
+        {/* sort alphabetically decending */}
+        <div
+          className=" ost_visual"
+          style={{
+            flex: 0.35,
+            fontSize: 60,
+            textAlign: "center",
+            verticalAlign: "center",
+            lineHeight: 0.75,
+            borderColor: "white",
+          }}
+          onClick={() =>
+            props.setItems(
+              sortOSIs("alphabetical-decending", props.items, props.time)
+            )
+          }
+        >
+          A
+        </div>
+        {/* sort decending */}
+        <div
+          className=" ost_visual"
+          style={{
+            flex: 0.35,
+            fontSize: 60,
+            textAlign: "center",
+            verticalAlign: "center",
+            lineHeight: 0.75,
+            borderColor: "white",
+          }}
+          onClick={() =>
+            props.setItems(sortOSIs("decending", props.items, props.time))
+          }
+        >
+          ↑
+        </div>
       </div>
       {props.items.map((char, i) => (
         <RenderOnScreenItem
@@ -123,7 +260,7 @@ export function Timer(props: {
       <div
         className="item_adder"
         id="adder"
-        onClick={() => AddItem(props.time, props.items, props.setItems)}
+        onClick={() => AddItem(props.items, props.setItems)}
       >
         +
       </div>
