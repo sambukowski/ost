@@ -1,12 +1,7 @@
 import { Header } from "./header/header";
-import {
-  OnScreenItem,
-  Appearance,
-} from "../data-structures/ost-data-structures";
-import {
-  RenderOnScreenItem,
-  CalcTotalOnScreenPercentage,
-} from "./on-screen-items/on-screen-item";
+import { NavigationBar } from "./header/navigation-bar";
+import { OnScreenItem } from "../data-structures/ost-data-structures";
+import { RenderOnScreenItem } from "./on-screen-items/on-screen-item";
 
 function generateRandomColor(): string {
   const values = [
@@ -58,69 +53,6 @@ function RemoveItem(
   setChars(chars.slice(0, chars.length - 1));
 }
 
-function sortOSIs(
-  method: string,
-  items: OnScreenItem[],
-  time: number
-): OnScreenItem[] {
-  switch (method) {
-    case "ascending": {
-      const tmp_items = [...items];
-      tmp_items.sort((a, b) => {
-        return (
-          CalcTotalOnScreenPercentage(a, time) -
-          CalcTotalOnScreenPercentage(b, time)
-        );
-      });
-      return tmp_items;
-    }
-    case "decending": {
-      const tmp_items = [...items];
-      tmp_items.sort((a, b) => {
-        return (
-          CalcTotalOnScreenPercentage(b, time) -
-          CalcTotalOnScreenPercentage(a, time)
-        );
-      });
-      return tmp_items;
-    }
-    case "alphabetical-decending": {
-      const tmp_items = [...items];
-      tmp_items.sort((a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        return 0;
-      });
-      return tmp_items;
-    }
-    case "alphabetical-ascending": {
-      const tmp_items = [...items];
-      tmp_items.sort((a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-        if (nameA < nameB) {
-          return 1;
-        }
-        if (nameA > nameB) {
-          return -1;
-        }
-        return 0;
-      });
-      return tmp_items;
-    }
-    default: {
-      break;
-    }
-  }
-  return items;
-}
-
 export function Timer(props: {
   playing: boolean;
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
@@ -149,104 +81,14 @@ export function Timer(props: {
         file={props.file}
         setFile={props.setFile}
       />
-      {/* TODO: this needs to be moved to its own component */}
-      <div
-        style={{ display: "flex", marginLeft: 5, marginRight: 5, height: 85 }}
-      >
-        {/* this first one is the toggle name left and right */}
-        <div
-          className=" ost_visual"
-          style={{
-            flex: 0.6,
-            fontSize: 80,
-            textAlign: "center",
-            verticalAlign: "center",
-            lineHeight: 0.45,
-            borderColor: "white",
-          }}
-          onClick={() =>
-            props.setOSINameAlign(
-              props.osi_name_align === "left" ? "right" : "left"
-            )
-          }
-        >
-          {props.osi_name_align === "left" ? "←" : "→"}
-        </div>
-        {/* this will eventually be the global event timeline */}
-        <div className=" ost_visual" style={{ flex: 10 }}></div>
-        {/* sort ascending screen time button */}
-        <div
-          className=" ost_visual"
-          style={{
-            flex: 0.35,
-            fontSize: 60,
-            textAlign: "center",
-            verticalAlign: "center",
-            lineHeight: 0.75,
-            borderColor: "white",
-          }}
-          onClick={() =>
-            props.setItems(sortOSIs("ascending", props.items, props.time))
-          }
-        >
-          ↓
-        </div>
-        {/* sort alphabetically ascending */}
-        <div
-          className=" ost_visual"
-          style={{
-            flex: 0.35,
-            fontSize: 60,
-            textAlign: "center",
-            verticalAlign: "center",
-            lineHeight: 0.75,
-            borderColor: "white",
-          }}
-          onClick={() =>
-            props.setItems(
-              sortOSIs("alphabetical-ascending", props.items, props.time)
-            )
-          }
-        >
-          ∀
-        </div>
-        {/* sort alphabetically decending */}
-        <div
-          className=" ost_visual"
-          style={{
-            flex: 0.35,
-            fontSize: 60,
-            textAlign: "center",
-            verticalAlign: "center",
-            lineHeight: 0.75,
-            borderColor: "white",
-          }}
-          onClick={() =>
-            props.setItems(
-              sortOSIs("alphabetical-decending", props.items, props.time)
-            )
-          }
-        >
-          A
-        </div>
-        {/* sort decending */}
-        <div
-          className=" ost_visual"
-          style={{
-            flex: 0.35,
-            fontSize: 60,
-            textAlign: "center",
-            verticalAlign: "center",
-            lineHeight: 0.75,
-            borderColor: "white",
-          }}
-          onClick={() =>
-            props.setItems(sortOSIs("decending", props.items, props.time))
-          }
-        >
-          ↑
-        </div>
-      </div>
+      <NavigationBar
+        time={props.time}
+        setTime={props.setTime}
+        items={props.items}
+        setItems={props.setItems}
+        osi_name_align={props.osi_name_align}
+        setOSINameAlign={props.setOSINameAlign}
+      />
       {props.items.map((char, i) => (
         <RenderOnScreenItem
           key={i}
