@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { OnScreenItem } from "./data-structures/ost-data-structures";
+import { Setup } from "./setup/setup";
 import { Timer } from "./timer/timer";
 import { Exporter } from "./exporter/exporter";
 
@@ -41,6 +42,16 @@ export default function App() {
           className="ost_visual"
           style={{
             flex: 1,
+            background: tabKey === "setup" ? activeTabColor : inactiveTabColor,
+          }}
+          onClick={() => setTabKey("setup")}
+        >
+          Setup
+        </button>
+        <button
+          className="ost_visual"
+          style={{
+            flex: 1,
             background: tabKey === "timer" ? activeTabColor : inactiveTabColor,
           }}
           onClick={() => setTabKey("timer")}
@@ -62,6 +73,15 @@ export default function App() {
       {
         {
           /* conditionally show each tab */
+          setup: (
+            <Setup
+              time={time}
+              title={title}
+              setTitle={setTitle}
+              items={items}
+              setItems={setItems}
+            />
+          ),
           timer: (
             <Timer
               playing={playing}
