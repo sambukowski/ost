@@ -2,6 +2,7 @@ import {
   OnScreenItem,
   OSTproject,
 } from "../../data-structures/ost-data-structures";
+import { CalcTotalOnScreenPercentage } from "../on-screen-items/on-screen-item";
 
 function PlayPauseButton(props: {
   playing: boolean;
@@ -87,6 +88,63 @@ function BuildOSTproject(
   return proj;
 }
 
+export function RebuildItems(incoming_items: OnScreenItem[], time: number) {
+  var new_items: OnScreenItem[] = [];
+
+  incoming_items.forEach((item) => {
+    // var new_item: OnScreenItem = {
+    //   name: "New Item",
+    //   appearances: [],
+    //   event_list: [],
+    //   events: [],
+    //   color: "",
+    //   on_screen_percent: 0,
+    // };
+    var new_item: OnScreenItem = {
+      name: item.name ?? "failed",
+      appearances: item.appearances ?? [],
+      event_list: item.event_list ?? [],
+      events: item.events ?? [],
+      color: item.color ?? "#000000",
+      on_screen_percent: CalcTotalOnScreenPercentage(item, time) ?? 0,
+    };
+
+    // try {
+    //   new_item.name = item.name;
+    // } finally {
+    //   new_item.name = "failed";
+    // }
+    // try {
+    //   new_item.appearances = item.appearances;
+    // } finally {
+    //   new_item.appearances = [];
+    // }
+    // try {
+    //   new_item.event_list = item.event_list;
+    // } finally {
+    //   new_item.event_list = [];
+    // }
+    // try {
+    //   new_item.events = item.events;
+    // } finally {
+    //   new_item.events = [];
+    // }
+    // try {
+    //   new_item.color = item.color;
+    // } finally {
+    //   new_item.color = "#000000";
+    // }
+    // try {
+    //   new_item.on_screen_percent = item.on_screen_percent;
+    // } finally {
+    //   new_item.on_screen_percent = NaN;
+    // }
+    new_items.push(new_item);
+  });
+
+  return new_items;
+}
+
 function SaveLoad(props: {
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   time: number;
@@ -105,10 +163,12 @@ function SaveLoad(props: {
     fileReader.onload = (e: any) => {
       props.setFile(e.target.result);
       let proj: OSTproject = JSON.parse(e.target.result);
+
       props.setPlaying(false);
       props.setTitle(proj.title);
       props.setTime(proj.time);
-      props.setItems(proj.items);
+      props.setItems(RebuildItems(proj.items, proj.time));
+      // props.setItems(proj.items); //enhance this
     };
   };
 

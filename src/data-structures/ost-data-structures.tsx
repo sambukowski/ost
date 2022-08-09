@@ -3,6 +3,7 @@ export interface OnScreenItem {
   name: string;
   color: string;
   appearances: Appearance[];
+  event_list: string[];
   events: Event[];
 }
 
@@ -19,4 +20,5 @@ export interface OSTproject {
 
 export interface Event {
   time: number;
+  name: string;
 }

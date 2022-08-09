@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
 import {
   OnScreenItem,
   Appearance,
+  Event,
 } from "../../data-structures/ost-data-structures";
 
 function RenderAppearance(props: {
@@ -26,6 +28,73 @@ function RenderAppearance(props: {
   );
 }
 
+function RenderEvent(props: {
+  // app: Appearance;
+  event: Event;
+  time: number;
+  color: string;
+}) {
+  const [display, setDisplay] = useState("notdisplayed");
+  const showEventInfo = (e: any) => {
+    e.preventDefault();
+    if (display !== "displayed") {
+      setDisplay("displayed");
+    }
+  };
+
+  const hideEventInfo = (e: any) => {
+    e.preventDefault();
+    if (display !== "notdisplayed") {
+      setDisplay("notdisplayed");
+    }
+  };
+
+  const incoming_color = parseInt(props.color.substring(1), 16);
+  const inverted_color = incoming_color ^ 0xffffff;
+  const inv_color_string = inverted_color.toString(16);
+  const inv_color: string = "#" + inv_color_string.padStart(6, "0");
+
+  const marker_width = 10;
+  return (
+    <div>
+      <div
+        className="event_marker"
+        style={{
+          position: "absolute",
+          background: inv_color,
+          left: (props.event.time / props.time) * 100 + "%",
+          top: -5,
+          height: 20,
+          width: marker_width,
+        }}
+        // onMouseEnter={(e) => showEventInfo(e)}
+        onMouseEnter={(e) => showEventInfo(e)}
+        onMouseLeave={(e) => hideEventInfo(e)}
+      />
+      <div
+        className={display}
+        style={{
+          position: "absolute",
+          background: inv_color,
+          color: props.color,
+          left: (props.event.time / props.time) * 100 + "%",
+          top: -5,
+          height: 20,
+          marginLeft: marker_width,
+          // width: 100,
+        }}
+        onMouseEnter={(e) => showEventInfo(e)}
+        onMouseLeave={(e) => hideEventInfo(e)}
+      >
+        {"[" +
+          new Date(props.time * 1000).toISOString().substring(11, 19) +
+          "]:" +
+          props.event.name}
+      </div>
+    </div>
+  );
+}
+
 function TimelineBar(props: { on_screen_item: OnScreenItem; time: number }) {
   return (
     <div style={{ display: "flex" }}>
@@ -37,6 +106,14 @@ function TimelineBar(props: { on_screen_item: OnScreenItem; time: number }) {
           <RenderAppearance
             key={i}
             app={app}
+            time={props.time}
+            color={props.on_screen_item.color}
+          />
+        ))}
+        {props.on_screen_item.events.map((event, i) => (
+          <RenderEvent
+            key={i}
+            event={event}
             time={props.time}
             color={props.on_screen_item.color}
           />
@@ -117,121 +194,209 @@ function UpdateOSIdata(
   setChars(newChars);
 }
 
+function RenderEventSelection(props: {
+  on_screen_item: OnScreenItem;
+  time: number;
+  items: OnScreenItem[];
+  event_name: string;
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  osi_name_align: string;
+  events_visible: boolean;
+  setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const time_string: string = new Date(props.time * 1000)
+    .toISOString()
+    .substring(11, 19);
+  const title_text: string = "[" + time_string + "]:" + props.event_name;
+  return (
+    <div
+      style={{
+        background: "gray",
+        margin: 5,
+        padding: 5,
+        paddingLeft: 4,
+        borderRadius: 15,
+        borderStyle: "solid",
+        borderWidth: 3,
+        borderColor: props.on_screen_item.color,
+        verticalAlign: "middle",
+        textAlign: "center",
+        fontSize: 40,
+        alignItems: "flex-start",
+      }}
+      onClick={() => {
+        let tmp_items = [...props.items];
+        const item_index = props.items.indexOf(props.on_screen_item);
+        let tmp_event = {
+          name: props.event_name,
+          time: props.time,
+        };
+        // need to add code here to not add an event if it already exists at that second
+        let tmp_events = tmp_items[item_index].events;
+        tmp_events.push(tmp_event);
+        // tmp_items[item_index].events = [...new Set(tmp_events)];
+        tmp_items[item_index].events = tmp_events;
+        // tmp_items = [...new Set(tmp)]
+        props.setItems(tmp_items);
+      }}
+    >
+      {props.event_name}
+    </div>
+  );
+}
+
+function EventSelection(props: {
+  on_screen_item: OnScreenItem;
+  time: number;
+  items: OnScreenItem[];
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  osi_name_align: string;
+  events_visible: boolean;
+  setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  if (props.events_visible) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent:
+            props.osi_name_align === "left" ? "flex-start" : "flex-end",
+        }}
+      >
+        <div style={{ flex: 0.1 }}></div>
+        {props.on_screen_item.event_list.map((event_name, i) => (
+          <RenderEventSelection
+            key={i}
+            time={props.time}
+            items={props.items}
+            event_name={event_name}
+            setItems={props.setItems}
+            osi_name_align={props.osi_name_align}
+            on_screen_item={props.on_screen_item}
+            events_visible={props.events_visible}
+            setEventsVisible={props.setEventsVisible}
+          />
+        ))}
+        <div style={{ flex: 0.1 }}></div>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
+}
+
 export function RenderOnScreenItem(props: {
   on_screen_item: OnScreenItem;
   time: number;
-  chars: OnScreenItem[];
+  items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
   osi_name_align: string;
+  events_visible: boolean;
+  setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const current = props.on_screen_item.appearances.find((app) => !app.end);
 
   const setColor = (e: any) => {
-    let newChars = [...props.chars];
-    newChars[props.chars.indexOf(props.on_screen_item)] = {
+    let newChars = [...props.items];
+    newChars[props.items.indexOf(props.on_screen_item)] = {
       ...props.on_screen_item,
       color: e.target.value,
     };
     props.setItems(newChars);
   };
 
-  // const alignStyle = (style: string) => ({
-  //   text-align: (style == "left") ? 'left' : 'right'
-  // });
-
   return (
-    <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
-      <div
-        className="ost_tracking_element ost_visual"
-        style={{
-          flex: 0.03,
-          background: props.on_screen_item.color,
-          padding: 0,
-        }}
-      >
-        <label htmlFor="pickColor" style={{ flex: 0.04, display: "flex" }}>
-          <input
-            type="color"
-            id="pickColor"
-            name="pickColor"
-            value={props.on_screen_item.color}
-            onChange={setColor}
-            style={{
-              flex: 1,
-              background: props.on_screen_item.color,
-              height: 115,
-              //   margin: 5,
-            }}
+    <div>
+      <div style={{ display: "flex", marginLeft: 5, marginRight: 5 }}>
+        <div
+          className="ost_tracking_element ost_visual"
+          style={{
+            flex: 0.03,
+            background: props.on_screen_item.color,
+            padding: 0,
+          }}
+        >
+          <label htmlFor="pickColor" style={{ flex: 0.04, display: "flex" }}>
+            <input
+              type="color"
+              id="pickColor"
+              name="pickColor"
+              value={props.on_screen_item.color}
+              onChange={setColor}
+              style={{
+                flex: 1,
+                background: props.on_screen_item.color,
+                height: 115,
+                //   margin: 5,
+              }}
+            />
+          </label>
+        </div>
+        <div className="ost_tracking_element ost_visual" id="ost_item_data">
+          <div style={{ display: "flex", marginRight: 5 }}>
+            <input
+              className="item_name"
+              type="text"
+              style={{
+                flex: 1,
+                textAlign: props.osi_name_align === "left" ? "left" : "right",
+              }}
+              value={props.on_screen_item.name}
+              onChange={(e) => {
+                let newChars = [...props.items];
+                newChars[props.items.indexOf(props.on_screen_item)] = {
+                  ...props.on_screen_item,
+                  name: e.target.value,
+                };
+                props.setItems(newChars);
+              }}
+              id="osi_name"
+            />
+          </div>
+          <div style={{ marginLeft: 5 }}>
+            Percent of total time on screen{" "}
+            {CalcTotalOnScreenPercentage(
+              props.on_screen_item,
+              props.time
+            ).toFixed(2)}
+            %
+          </div>
+          <HistogramBar
+            on_screen_item={props.on_screen_item}
+            time={props.time}
           />
-        </label>
-      </div>
-      <div className="ost_tracking_element ost_visual" id="ost_item_data">
-        <div style={{ display: "flex", marginRight: 5 }}>
-          {
-            {
-              left: (
-                <input
-                  className="item_name"
-                  type="text"
-                  style={{ flex: 1, textAlign: "left" }}
-                  value={props.on_screen_item.name}
-                  onChange={(e) => {
-                    let newChars = [...props.chars];
-                    newChars[props.chars.indexOf(props.on_screen_item)] = {
-                      ...props.on_screen_item,
-                      name: e.target.value,
-                    };
-                    props.setItems(newChars);
-                  }}
-                  id="osi_name"
-                />
-              ),
-              right: (
-                <input
-                  className="item_name"
-                  type="text"
-                  style={{ flex: 1, textAlign: "right" }}
-                  value={props.on_screen_item.name}
-                  onChange={(e) => {
-                    let newChars = [...props.chars];
-                    newChars[props.chars.indexOf(props.on_screen_item)] = {
-                      ...props.on_screen_item,
-                      name: e.target.value,
-                    };
-                    props.setItems(newChars);
-                  }}
-                  id="osi_name"
-                />
-              ),
-            }[props.osi_name_align]
+          <div style={{ marginLeft: 5 }}>On Screen Occurances</div>
+          <TimelineBar
+            on_screen_item={props.on_screen_item}
+            time={props.time}
+          />
+        </div>
+        <button
+          className="ost_tracking_element ost_visual"
+          id="ost_item_button"
+          onClick={() =>
+            UpdateOSIdata(
+              props.on_screen_item,
+              props.items,
+              props.time,
+              props.setItems
+            )
           }
-        </div>
-        <div style={{ marginLeft: 5 }}>
-          Percent of total time on screen{" "}
-          {CalcTotalOnScreenPercentage(
-            props.on_screen_item,
-            props.time
-          ).toFixed(2)}
-          %
-        </div>
-        <HistogramBar on_screen_item={props.on_screen_item} time={props.time} />
-        <div style={{ marginLeft: 5 }}>On Screen Occurances</div>
-        <TimelineBar on_screen_item={props.on_screen_item} time={props.time} />
+        >
+          {current ? "👁" : "--"}
+        </button>
       </div>
-      <button
-        className="ost_tracking_element ost_visual"
-        id="ost_item_button"
-        onClick={() =>
-          UpdateOSIdata(
-            props.on_screen_item,
-            props.chars,
-            props.time,
-            props.setItems
-          )
-        }
-      >
-        {current ? "👁" : "--"}
-      </button>
+      <EventSelection
+        time={props.time}
+        items={props.items}
+        setItems={props.setItems}
+        osi_name_align={props.osi_name_align}
+        on_screen_item={props.on_screen_item}
+        events_visible={props.events_visible}
+        setEventsVisible={props.setEventsVisible}
+      />
     </div>
   );
 }

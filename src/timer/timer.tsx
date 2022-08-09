@@ -38,6 +38,7 @@ function AddItem(
   const new_item: OnScreenItem = {
     name: "New Item",
     appearances: [],
+    event_list: [],
     events: [],
     color: generateRandomColor(),
     on_screen_percent: 0,
@@ -66,6 +67,8 @@ export function Timer(props: {
   setFile: React.Dispatch<React.SetStateAction<string>>;
   osi_name_align: string;
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
+  events_visible: boolean;
+  setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div>
@@ -88,15 +91,19 @@ export function Timer(props: {
         setItems={props.setItems}
         osi_name_align={props.osi_name_align}
         setOSINameAlign={props.setOSINameAlign}
+        events_visible={props.events_visible}
+        setEventsVisible={props.setEventsVisible}
       />
       {props.items.map((char, i) => (
         <RenderOnScreenItem
           key={i}
           on_screen_item={char}
           time={props.time}
-          chars={props.items}
+          items={props.items}
           setItems={props.setItems}
           osi_name_align={props.osi_name_align}
+          events_visible={props.events_visible}
+          setEventsVisible={props.setEventsVisible}
         />
       ))}
       <div

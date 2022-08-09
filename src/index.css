@@ -34,6 +34,17 @@ input[type="color"] {
   opacity: 0;
 }
 
+.notdisplayed {
+  display: none;
+}
+
+.displayed {
+  display: flex;
+  height: 20px;
+  margin: auto;
+}
+
+
 .item_name {
   background: transparent;
   border: none;

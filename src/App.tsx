@@ -3,6 +3,7 @@ import { OnScreenItem } from "./data-structures/ost-data-structures";
 import { Setup } from "./setup/setup";
 import { Timer } from "./timer/timer";
 import { Exporter } from "./exporter/exporter";
+import { RebuildItems } from "./timer/header/header";
 
 export default function App() {
   // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
@@ -10,12 +11,14 @@ export default function App() {
   const [osi_name_align, setOSINameAlign] = useState("left");
   const [time, setTime] = useState(0),
     [playing, setPlaying] = useState(false),
+    [events_visible, setEventsVisible] = useState(true),
     [file, setFile] = useState(""),
     [title, setTitle] = useState("Title"),
     [items, setItems] = useState<OnScreenItem[]>([
       {
         name: "New Item",
         appearances: [],
+        event_list: [],
         events: [],
         color: "red",
         on_screen_percent: 0,
@@ -96,16 +99,21 @@ export default function App() {
               setFile={setFile}
               osi_name_align={osi_name_align}
               setOSINameAlign={setOSINameAlign}
+              events_visible={events_visible}
+              setEventsVisible={setEventsVisible}
             />
           ),
           exporter: <Exporter items={items} time={time} />,
         }[tabKey]
       }
 
-      {/* <div>Time: {time}</div>
-      <div>{title}</div>
-      <div>{file}</div>
-      <div>
+      {/* <div>Time: {time}</div> */}
+      {/* <div>{title}</div> */}
+      {/* <div>{file}</div> */}
+      {/* <div>
+        <pre>{JSON.stringify(RebuildItems(items, time), null, 2)}</pre>
+      </div> */}
+      {/* <div>
         <pre>{JSON.stringify(items, null, 2)}</pre>
       </div> */}
     </div>

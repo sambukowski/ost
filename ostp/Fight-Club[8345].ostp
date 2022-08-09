@@ -222,7 +222,17 @@
           "end": 8171
         }
       ],
-      "color": "#81c21e"
+      "event_list": [
+        "test"
+      ],
+      "events": [
+        {
+          "time": 4000,
+          "name": "test"
+        }
+      ],
+      "color": "#81c21e",
+      "on_screen_percent": 85.27261833433194
     },
     {
       "name": "Tyler Durden",
@@ -420,177 +430,17 @@
           "end": 8019
         }
       ],
-      "color": "#ffa200"
-    },
-    {
-      "name": "Bob",
-      "appearances": [
+      "event_list": [
+        "test"
+      ],
+      "events": [
         {
-          "start": 183,
-          "end": 226
-        },
-        {
-          "start": 454,
-          "end": 557
-        },
-        {
-          "start": 675,
-          "end": 701
-        },
-        {
-          "start": 4065,
-          "end": 4181
-        },
-        {
-          "start": 5355,
-          "end": 5383
-        },
-        {
-          "start": 5407,
-          "end": 5423
-        },
-        {
-          "start": 6316,
-          "end": 6326
-        },
-        {
-          "start": 6327,
-          "end": 6431
+          "time": 4000,
+          "name": "test"
         }
       ],
-      "color": "#f94046"
-    },
-    {
-      "name": "Jack's Boss",
-      "appearances": [
-        {
-          "start": 257,
-          "end": 274
-        },
-        {
-          "start": 2250,
-          "end": 2253
-        },
-        {
-          "start": 2346,
-          "end": 2362
-        },
-        {
-          "start": 2461,
-          "end": 2490
-        },
-        {
-          "start": 3297,
-          "end": 3315
-        },
-        {
-          "start": 3878,
-          "end": 3963
-        },
-        {
-          "start": 4542,
-          "end": 4732
-        }
-      ],
-      "color": "#316899"
-    },
-    {
-      "name": "Marla Singer",
-      "appearances": [
-        {
-          "start": 686,
-          "end": 736
-        },
-        {
-          "start": 745,
-          "end": 749
-        },
-        {
-          "start": 757,
-          "end": 761
-        },
-        {
-          "start": 776,
-          "end": 776
-        },
-        {
-          "start": 855,
-          "end": 865
-        },
-        {
-          "start": 875,
-          "end": 1144
-        },
-        {
-          "start": 2448,
-          "end": 2461
-        },
-        {
-          "start": 2839,
-          "end": 2930
-        },
-        {
-          "start": 2950,
-          "end": 2988
-        },
-        {
-          "start": 3008,
-          "end": 3131
-        },
-        {
-          "start": 3165,
-          "end": 3170
-        },
-        {
-          "start": 3278,
-          "end": 3283
-        },
-        {
-          "start": 3466,
-          "end": 3542
-        },
-        {
-          "start": 3553,
-          "end": 3575
-        },
-        {
-          "start": 3955,
-          "end": 3963
-        },
-        {
-          "start": 3965,
-          "end": 4051
-        },
-        {
-          "start": 5091,
-          "end": 5234
-        },
-        {
-          "start": 6257,
-          "end": 6303
-        },
-        {
-          "start": 6682,
-          "end": 6728
-        },
-        {
-          "start": 7006,
-          "end": 7217
-        },
-        {
-          "start": 7825,
-          "end": 7842
-        },
-        {
-          "start": 8032,
-          "end": 8034
-        },
-        {
-          "start": 8066,
-          "end": 8171
-        }
-      ],
-      "color": "#d701da"
+      "color": "#ffa200",
+      "on_screen_percent": 43.53505092869982
     },
     {
       "name": "Space Monkey(s)",
@@ -708,7 +558,189 @@
           "end": 8130
         }
       ],
-      "color": "#000000"
+      "event_list": [],
+      "events": [],
+      "color": "#000000",
+      "on_screen_percent": 27.585380467345715
+    },
+    {
+      "name": "Marla Singer",
+      "appearances": [
+        {
+          "start": 686,
+          "end": 736
+        },
+        {
+          "start": 745,
+          "end": 749
+        },
+        {
+          "start": 757,
+          "end": 761
+        },
+        {
+          "start": 776,
+          "end": 776
+        },
+        {
+          "start": 855,
+          "end": 865
+        },
+        {
+          "start": 875,
+          "end": 1144
+        },
+        {
+          "start": 2448,
+          "end": 2461
+        },
+        {
+          "start": 2839,
+          "end": 2930
+        },
+        {
+          "start": 2950,
+          "end": 2988
+        },
+        {
+          "start": 3008,
+          "end": 3131
+        },
+        {
+          "start": 3165,
+          "end": 3170
+        },
+        {
+          "start": 3278,
+          "end": 3283
+        },
+        {
+          "start": 3466,
+          "end": 3542
+        },
+        {
+          "start": 3553,
+          "end": 3575
+        },
+        {
+          "start": 3955,
+          "end": 3963
+        },
+        {
+          "start": 3965,
+          "end": 4051
+        },
+        {
+          "start": 5091,
+          "end": 5234
+        },
+        {
+          "start": 6257,
+          "end": 6303
+        },
+        {
+          "start": 6682,
+          "end": 6728
+        },
+        {
+          "start": 7006,
+          "end": 7217
+        },
+        {
+          "start": 7825,
+          "end": 7842
+        },
+        {
+          "start": 8032,
+          "end": 8034
+        },
+        {
+          "start": 8066,
+          "end": 8171
+        }
+      ],
+      "event_list": [],
+      "events": [],
+      "color": "#d701da",
+      "on_screen_percent": 16.46494907130018
+    },
+    {
+      "name": "Bob",
+      "appearances": [
+        {
+          "start": 183,
+          "end": 226
+        },
+        {
+          "start": 454,
+          "end": 557
+        },
+        {
+          "start": 675,
+          "end": 701
+        },
+        {
+          "start": 4065,
+          "end": 4181
+        },
+        {
+          "start": 5355,
+          "end": 5383
+        },
+        {
+          "start": 5407,
+          "end": 5423
+        },
+        {
+          "start": 6316,
+          "end": 6326
+        },
+        {
+          "start": 6327,
+          "end": 6431
+        }
+      ],
+      "event_list": [],
+      "events": [],
+      "color": "#f94046",
+      "on_screen_percent": 5.344517675254643
+    },
+    {
+      "name": "Jack's Boss",
+      "appearances": [
+        {
+          "start": 257,
+          "end": 274
+        },
+        {
+          "start": 2250,
+          "end": 2253
+        },
+        {
+          "start": 2346,
+          "end": 2362
+        },
+        {
+          "start": 2461,
+          "end": 2490
+        },
+        {
+          "start": 3297,
+          "end": 3315
+        },
+        {
+          "start": 3878,
+          "end": 3963
+        },
+        {
+          "start": 4542,
+          "end": 4732
+        }
+      ],
+      "event_list": [],
+      "events": [],
+      "color": "#316899",
+      "on_screen_percent": 4.289994008388256
     }
   ]
 }

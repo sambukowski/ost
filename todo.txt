@@ -3,7 +3,7 @@ IN PROGRESS: Tabs
     IN PROGRESS: Timer Tab
         - The input interface
         IN PROGRESS: Navigation bar
-            IN PROGRESS: Update OSI order: for the TIMER
+            done: Update OSI order: for the TIMER
                 done: buttons or...
                     > can sort by the following:    
                         - percent screen time: ascending and decending
@@ -18,7 +18,7 @@ IN PROGRESS: Tabs
             TODO: consolodate sort button types into one button 
                 - have the most recently used sort button highlighted
                 - have one button for ascending and desedning sort that toggles visually to show you how it's sorting
-            TODO: toggle OSI event visability
+            done: toggle OSI event visability
             TODO: control the activel OSTP in the Timer
             TODO: sort by items, events, status?
                 - need to think about this some more
@@ -32,9 +32,13 @@ IN PROGRESS: Tabs
             - probably need to integrate a player into the OST
             - get to frame level accuracy for on screen (because someone will ask for it)
             - do the same for in scene
-        TODO: Event only timelines?
+        done: Event only timelines?
             - Just track when something specific happens?
             - i.e. the force was used at this point in the film?
+            > because of the way Events are tracked you can just have an OSI and level the visibility off
+                and just uses the events
+            > Make a event specific OSI that can literally only track events? ...
+        done: hover over event markers and see at what time the event happened and what it was
 
     IN PROGRESS: Exporter Tab
         - The export interface
@@ -52,8 +56,9 @@ IN PROGRESS: Tabs
         - A UI that is specifically designed for inputing names and individual character events
         - Let's you build a list of all the events a charater might experience in film
             - i.e.: born, died, banished, "got the ring" etc.
-    - need input controls when on different tabs 
-        - when in export, the global timer stops, hotkeys will be different, etc
+        - need input controls when on different tabs 
+            - when in export, the global timer stops, hotkeys will be different, etc
+        done: add and control all events an item has
         
  
 TODO: hot keys

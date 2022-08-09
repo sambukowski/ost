@@ -314,6 +314,8 @@ export function NavigationBar(props: {
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
   osi_name_align: string;
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
+  events_visible: boolean;
+  setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const sort_scale = 0.03;
   return (
@@ -338,6 +340,27 @@ export function NavigationBar(props: {
         {props.osi_name_align === "left" ? "←" : "→"}
       </div>
       {/* this is where the loaded ostp view selection and toggle showing events will be  */}
+      <div
+        style={{
+          flex: 0.1,
+          fontSize: 50,
+          textAlign: "center",
+          verticalAlign: "center",
+          lineHeight: 1,
+          borderColor: "white",
+          background: props.events_visible ? "gray" : "#383838",
+          color: props.events_visible ? "black" : "#787878",
+          margin: 5,
+          padding: 5,
+          paddingLeft: 0,
+          borderRadius: 15,
+          borderStyle: "solid",
+          borderWidth: 3,
+        }}
+        onClick={() => props.setEventsVisible(!props.events_visible)}
+      >
+        Events
+      </div>
       {/* <div style={{ flex: 0.1, marginLeft: "auto" }}> */}
       <div style={{ marginLeft: "auto" }}>
         <SortingNavigation
