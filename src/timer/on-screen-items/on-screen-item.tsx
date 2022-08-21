@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   OnScreenItem,
   Appearance,
@@ -80,14 +80,15 @@ function RenderEvent(props: {
           left: (props.event.time / props.time) * 100 + "%",
           top: -5,
           height: 20,
-          marginLeft: marker_width,
+          // marginLeft: marker_width,
+          marginTop: -20,
           // width: 100,
         }}
         onMouseEnter={(e) => showEventInfo(e)}
         onMouseLeave={(e) => hideEventInfo(e)}
       >
         {"[" +
-          new Date(props.time * 1000).toISOString().substring(11, 19) +
+          new Date(props.event.time * 1000).toISOString().substring(11, 19) +
           "]:" +
           props.event.name}
       </div>
@@ -204,10 +205,10 @@ function RenderEventSelection(props: {
   events_visible: boolean;
   setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const time_string: string = new Date(props.time * 1000)
-    .toISOString()
-    .substring(11, 19);
-  const title_text: string = "[" + time_string + "]:" + props.event_name;
+  // const time_string: string = new Date(props.time * 1000)
+  //   .toISOString()
+  //   .substring(11, 19);
+  // const title_text: string = "[" + time_string + "]:" + props.event_name;
   return (
     <div
       style={{

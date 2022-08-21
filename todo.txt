@@ -15,6 +15,7 @@ IN PROGRESS: Tabs
                     > this feature has been moved to the exporter
             done: Toggle OSI names from aligned-left to aligned-right
             done: live sorting buttons
+            TODO: need to make event markers slide over when they are too close to the end of the timeline display
             TODO: consolodate sort button types into one button 
                 - have the most recently used sort button highlighted
                 - have one button for ascending and desedning sort that toggles visually to show you how it's sorting

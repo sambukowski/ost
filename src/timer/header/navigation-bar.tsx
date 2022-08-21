@@ -1,6 +1,12 @@
 import { OnScreenItem } from "../../data-structures/ost-data-structures";
 import { CalcTotalOnScreenPercentage } from "../on-screen-items/on-screen-item";
 
+function compareVisible(a: OnScreenItem, b: OnScreenItem) {
+  const a_val = a.appearances[a.appearances.length - 1].end;
+  const b_val = b.appearances[b.appearances.length - 1].end;
+  return a_val || b_val ? (!a_val ? -1 : !b_val ? 1 : 0) : 0;
+}
+
 function sortOSIs(
   method: string,
   items: OnScreenItem[],
@@ -83,18 +89,44 @@ function sortOSIs(
             a.appearances[a.appearances.length - 1].end! ===
           0
         ) {
-          return (
-            CalcTotalOnScreenPercentage(b, time) -
-            CalcTotalOnScreenPercentage(a, time)
-          );
+          if (
+            CalcTotalOnScreenPercentage(a, time) -
+              CalcTotalOnScreenPercentage(b, time) >
+            0
+          ) {
+            return -1;
+          }
+          if (
+            CalcTotalOnScreenPercentage(a, time) -
+              CalcTotalOnScreenPercentage(b, time) <
+            0
+          ) {
+            return 1;
+          } else {
+            return 0;
+          }
         } else {
-          return (
-            b.appearances[b.appearances.length - 1].end! -
-            a.appearances[a.appearances.length - 1].end!
-          );
+          if (
+            a.appearances[a.appearances.length - 1].end! -
+              b.appearances[b.appearances.length - 1].end! >
+            0
+          ) {
+            return -1;
+          }
+          if (
+            a.appearances[a.appearances.length - 1].end! -
+              b.appearances[b.appearances.length - 1].end! <
+            0
+          ) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       });
       return tmp_items;
+      // });
+      // return [...output];
     }
     case "not-recently-on-screen": {
       const tmp_items = [...items];
@@ -122,15 +154,39 @@ function sortOSIs(
             a.appearances[a.appearances.length - 1].end! ===
           0
         ) {
-          return (
+          if (
             CalcTotalOnScreenPercentage(a, time) -
-            CalcTotalOnScreenPercentage(b, time)
-          );
+              CalcTotalOnScreenPercentage(b, time) >
+            0
+          ) {
+            return 1;
+          }
+          if (
+            CalcTotalOnScreenPercentage(a, time) -
+              CalcTotalOnScreenPercentage(b, time) <
+            0
+          ) {
+            return -1;
+          } else {
+            return 0;
+          }
         } else {
-          return (
+          if (
             a.appearances[a.appearances.length - 1].end! -
-            b.appearances[b.appearances.length - 1].end!
-          );
+              b.appearances[b.appearances.length - 1].end! >
+            0
+          ) {
+            return 1;
+          }
+          if (
+            a.appearances[a.appearances.length - 1].end! -
+              b.appearances[b.appearances.length - 1].end! <
+            0
+          ) {
+            return -1;
+          } else {
+            return 0;
+          }
         }
       });
       return tmp_items;
@@ -317,7 +373,7 @@ export function NavigationBar(props: {
   events_visible: boolean;
   setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const sort_scale = 0.03;
+  // const sort_scale = 0.03;
   return (
     <div style={{ display: "flex", marginLeft: 5, marginRight: 5, height: 85 }}>
       {/* this first one is the toggle name left and right */}

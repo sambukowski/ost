@@ -1,0 +1,97 @@
+{
+  "title": "Title",
+  "time": 42,
+  "items": [
+    {
+      "name": "a",
+      "appearances": [
+        {
+          "start": 0,
+          "end": 18
+        },
+        {
+          "start": 42
+        }
+      ],
+      "event_list": [
+        "1",
+        "2"
+      ],
+      "events": [
+        {
+          "name": "1",
+          "time": 6
+        },
+        {
+          "name": "2",
+          "time": 42
+        }
+      ],
+      "color": "red",
+      "on_screen_percent": 0
+    },
+    {
+      "name": "b",
+      "appearances": [
+        {
+          "start": 0,
+          "end": 16
+        }
+      ],
+      "event_list": [
+        "3",
+        "4"
+      ],
+      "events": [
+        {
+          "name": "3",
+          "time": 8
+        }
+      ],
+      "color": "#a2601f",
+      "on_screen_percent": 0
+    },
+    {
+      "name": "c",
+      "appearances": [
+        {
+          "start": 0,
+          "end": 15
+        }
+      ],
+      "event_list": [
+        "5",
+        "6"
+      ],
+      "events": [
+        {
+          "name": "5",
+          "time": 10
+        }
+      ],
+      "color": "#29c6da",
+      "on_screen_percent": 0
+    },
+    {
+      "name": "d",
+      "appearances": [
+        {
+          "start": 0,
+          "end": 14
+        }
+      ],
+      "event_list": [
+        "7",
+        "8"
+      ],
+      "events": [
+        {
+          "name": "7",
+          "time": 11
+        }
+      ],
+      "color": "#9a3572",
+      "on_screen_percent": 0
+    }
+  ]
+}
