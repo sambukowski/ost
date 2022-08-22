@@ -1,13 +1,7 @@
 import { OnScreenItem } from "../../data-structures/ost-data-structures";
 import { CalcTotalOnScreenPercentage } from "../on-screen-items/on-screen-item";
 
-function compareVisible(a: OnScreenItem, b: OnScreenItem) {
-  const a_val = a.appearances[a.appearances.length - 1].end;
-  const b_val = b.appearances[b.appearances.length - 1].end;
-  return a_val || b_val ? (!a_val ? -1 : !b_val ? 1 : 0) : 0;
-}
-
-function sortOSIs(
+export function sortOSIs(
   method: string,
   items: OnScreenItem[],
   time: number
@@ -66,6 +60,15 @@ function sortOSIs(
     case "recently-on-screen": {
       const tmp_items = [...items];
       tmp_items.sort((a, b) => {
+        if (a.appearances.length === 0 && b.appearances.length > 0) {
+          return 1;
+        }
+        if (a.appearances.length < 0 && b.appearances.length === 0) {
+          return -1;
+        }
+        if (a.appearances.length === 0 && b.appearances.length === 0) {
+          return 0;
+        }
         if (
           a.appearances[a.appearances.length - 1].end === undefined &&
           b.appearances[b.appearances.length - 1].end !== undefined
@@ -131,6 +134,15 @@ function sortOSIs(
     case "not-recently-on-screen": {
       const tmp_items = [...items];
       tmp_items.sort((a, b) => {
+        if (a.appearances.length === 0 && b.appearances.length > 0) {
+          return -1;
+        }
+        if (a.appearances.length < 0 && b.appearances.length === 0) {
+          return 1;
+        }
+        if (a.appearances.length === 0 && b.appearances.length === 0) {
+          return 0;
+        }
         if (
           a.appearances[a.appearances.length - 1].end === undefined &&
           b.appearances[b.appearances.length - 1].end !== undefined
@@ -203,6 +215,7 @@ export function SortButtonAlphabeticalAscending(props: {
   time: number;
   items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div
@@ -216,9 +229,10 @@ export function SortButtonAlphabeticalAscending(props: {
         borderColor: "white",
       }}
       onClick={() =>
-        props.setItems(
-          sortOSIs("alphabetical-ascending", props.items, props.time)
-        )
+        // props.setItems(
+        //   sortOSIs("alphabetical-ascending", props.items, props.time)
+        // )
+        props.setSortType("alphabetical-ascending")
       }
     >
       ∀
@@ -231,6 +245,7 @@ export function SortButtonAlphabeticalDecending(props: {
   time: number;
   items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div
@@ -244,9 +259,10 @@ export function SortButtonAlphabeticalDecending(props: {
         borderColor: "white",
       }}
       onClick={() =>
-        props.setItems(
-          sortOSIs("alphabetical-decending", props.items, props.time)
-        )
+        // props.setItems(
+        //   sortOSIs("alphabetical-decending", props.items, props.time)
+        // )
+        props.setSortType("alphabetical-decending")
       }
     >
       A
@@ -261,6 +277,7 @@ function SortingNavigation(props: {
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
   osi_name_align: string;
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
+  setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const sort_scale = 0.2;
 
@@ -285,7 +302,8 @@ function SortingNavigation(props: {
           borderColor: "white",
         }}
         onClick={() =>
-          props.setItems(sortOSIs("ascending", props.items, props.time))
+          // props.setItems(sortOSIs("ascending", props.items, props.time))
+          props.setSortType("ascending")
         }
       >
         ↓
@@ -302,9 +320,10 @@ function SortingNavigation(props: {
           borderColor: "white",
         }}
         onClick={() =>
-          props.setItems(
-            sortOSIs("not-recently-on-screen", props.items, props.time)
-          )
+          // props.setItems(
+          //   sortOSIs("not-recently-on-screen", props.items, props.time)
+          // )
+          props.setSortType("not-recently-on-screen")
         }
       >
         👁
@@ -315,6 +334,7 @@ function SortingNavigation(props: {
         time={props.time}
         items={props.items}
         setItems={props.setItems}
+        setSortType={props.setSortType}
       />
       {/* sort alphabetically decending */}
       <SortButtonAlphabeticalDecending
@@ -322,6 +342,7 @@ function SortingNavigation(props: {
         time={props.time}
         items={props.items}
         setItems={props.setItems}
+        setSortType={props.setSortType}
       />
       {/* sort recently-on-screen */}
       <div
@@ -335,9 +356,10 @@ function SortingNavigation(props: {
           borderColor: "white",
         }}
         onClick={() =>
-          props.setItems(
-            sortOSIs("recently-on-screen", props.items, props.time)
-          )
+          // props.setItems(
+          //   sortOSIs("recently-on-screen", props.items, props.time)
+          // )
+          props.setSortType("recently-on-screen")
         }
       >
         👁
@@ -354,7 +376,8 @@ function SortingNavigation(props: {
           borderColor: "white",
         }}
         onClick={() =>
-          props.setItems(sortOSIs("decending", props.items, props.time))
+          // props.setItems(sortOSIs("decending", props.items, props.time))
+          props.setSortType("decending")
         }
       >
         ↑
@@ -372,6 +395,7 @@ export function NavigationBar(props: {
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
   events_visible: boolean;
   setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   // const sort_scale = 0.03;
   return (
@@ -426,6 +450,7 @@ export function NavigationBar(props: {
           setItems={props.setItems}
           osi_name_align={props.osi_name_align}
           setOSINameAlign={props.setOSINameAlign}
+          setSortType={props.setSortType}
         />
       </div>
     </div>

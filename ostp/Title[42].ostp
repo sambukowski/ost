@@ -27,7 +27,7 @@
           "time": 42
         }
       ],
-      "color": "red",
+      "color": "#ff0000",
       "on_screen_percent": 0
     },
     {

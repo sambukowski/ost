@@ -83,6 +83,7 @@ function RenderEvent(props: {
           // marginLeft: marker_width,
           marginTop: -20,
           // width: 100,
+          whiteSpace: "nowrap",
         }}
         onMouseEnter={(e) => showEventInfo(e)}
         onMouseLeave={(e) => hideEventInfo(e)}

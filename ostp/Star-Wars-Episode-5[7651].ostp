@@ -1400,7 +1400,12 @@
       "event_list": [
         "Takes possession of Han"
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "Takes possession of Han",
+          "time": 5912
+        }
+      ],
       "color": "#42704c",
       "on_screen_percent": 0
     },

@@ -347,6 +347,7 @@ export function Setup(props: {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+  setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const sort_scale = 1;
   return (
@@ -368,12 +369,14 @@ export function Setup(props: {
             time={props.time}
             items={props.items}
             setItems={props.setItems}
+            setSortType={props.setSortType}
           />
           <SortButtonAlphabeticalDecending
             sort_scale={sort_scale}
             time={props.time}
             items={props.items}
             setItems={props.setItems}
+            setSortType={props.setSortType}
           />
         </div>
         <div style={{ flex: 1 }}></div>

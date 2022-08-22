@@ -171,6 +171,14 @@ function SaveLoad(props: {
       // props.setItems(proj.items); //enhance this
     };
   };
+  console.log("Loading OSIs:");
+  for (var i = 0; i < props.items.length; i++) {
+    console.log(
+      "%s: app len: %i",
+      props.items[i].name,
+      props.items[i].appearances.length
+    );
+  }
 
   return (
     <div style={{ display: "flex", flex: 1, justifyContent: "right" }}>
