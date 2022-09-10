@@ -63,7 +63,7 @@ export function sortOSIs(
         if (a.appearances.length === 0 && b.appearances.length > 0) {
           return 1;
         }
-        if (a.appearances.length < 0 && b.appearances.length === 0) {
+        if (a.appearances.length > 0 && b.appearances.length === 0) {
           return -1;
         }
         if (a.appearances.length === 0 && b.appearances.length === 0) {
@@ -137,7 +137,7 @@ export function sortOSIs(
         if (a.appearances.length === 0 && b.appearances.length > 0) {
           return -1;
         }
-        if (a.appearances.length < 0 && b.appearances.length === 0) {
+        if (a.appearances.length > 0 && b.appearances.length === 0) {
           return 1;
         }
         if (a.appearances.length === 0 && b.appearances.length === 0) {
@@ -215,7 +215,7 @@ export function SortButtonAlphabeticalAscending(props: {
   time: number;
   items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
-  setSortType: React.Dispatch<React.SetStateAction<string>>;
+  // setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div
@@ -228,11 +228,12 @@ export function SortButtonAlphabeticalAscending(props: {
         lineHeight: 0.6,
         borderColor: "white",
       }}
-      onClick={() =>
-        // props.setItems(
-        //   sortOSIs("alphabetical-ascending", props.items, props.time)
-        // )
-        props.setSortType("alphabetical-ascending")
+      onClick={
+        () =>
+          props.setItems(
+            sortOSIs("alphabetical-ascending", props.items, props.time)
+          )
+        // props.setSortType("alphabetical-ascending")
       }
     >
       ∀
@@ -245,7 +246,7 @@ export function SortButtonAlphabeticalDecending(props: {
   time: number;
   items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
-  setSortType: React.Dispatch<React.SetStateAction<string>>;
+  // setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div
@@ -258,11 +259,12 @@ export function SortButtonAlphabeticalDecending(props: {
         lineHeight: 0.75,
         borderColor: "white",
       }}
-      onClick={() =>
-        // props.setItems(
-        //   sortOSIs("alphabetical-decending", props.items, props.time)
-        // )
-        props.setSortType("alphabetical-decending")
+      onClick={
+        () =>
+          props.setItems(
+            sortOSIs("alphabetical-decending", props.items, props.time)
+          )
+        // props.setSortType("alphabetical-decending")
       }
     >
       A
@@ -277,7 +279,7 @@ function SortingNavigation(props: {
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
   osi_name_align: string;
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
-  setSortType: React.Dispatch<React.SetStateAction<string>>;
+  // setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const sort_scale = 0.2;
 
@@ -301,9 +303,9 @@ function SortingNavigation(props: {
           lineHeight: 0.75,
           borderColor: "white",
         }}
-        onClick={() =>
-          // props.setItems(sortOSIs("ascending", props.items, props.time))
-          props.setSortType("ascending")
+        onClick={
+          () => props.setItems(sortOSIs("ascending", props.items, props.time))
+          // props.setSortType("ascending")
         }
       >
         ↓
@@ -319,11 +321,12 @@ function SortingNavigation(props: {
           lineHeight: 2.15,
           borderColor: "white",
         }}
-        onClick={() =>
-          // props.setItems(
-          //   sortOSIs("not-recently-on-screen", props.items, props.time)
-          // )
-          props.setSortType("not-recently-on-screen")
+        onClick={
+          () =>
+            props.setItems(
+              sortOSIs("not-recently-on-screen", props.items, props.time)
+            )
+          // props.setSortType("not-recently-on-screen")
         }
       >
         👁
@@ -334,7 +337,7 @@ function SortingNavigation(props: {
         time={props.time}
         items={props.items}
         setItems={props.setItems}
-        setSortType={props.setSortType}
+        // setSortType={props.setSortType}
       />
       {/* sort alphabetically decending */}
       <SortButtonAlphabeticalDecending
@@ -342,7 +345,7 @@ function SortingNavigation(props: {
         time={props.time}
         items={props.items}
         setItems={props.setItems}
-        setSortType={props.setSortType}
+        // setSortType={props.setSortType}
       />
       {/* sort recently-on-screen */}
       <div
@@ -355,11 +358,12 @@ function SortingNavigation(props: {
           lineHeight: 0.75,
           borderColor: "white",
         }}
-        onClick={() =>
-          // props.setItems(
-          //   sortOSIs("recently-on-screen", props.items, props.time)
-          // )
-          props.setSortType("recently-on-screen")
+        onClick={
+          () =>
+            props.setItems(
+              sortOSIs("recently-on-screen", props.items, props.time)
+            )
+          // props.setSortType("recently-on-screen")
         }
       >
         👁
@@ -375,9 +379,9 @@ function SortingNavigation(props: {
           lineHeight: 0.75,
           borderColor: "white",
         }}
-        onClick={() =>
-          // props.setItems(sortOSIs("decending", props.items, props.time))
-          props.setSortType("decending")
+        onClick={
+          () => props.setItems(sortOSIs("decending", props.items, props.time))
+          // props.setSortType("decending")
         }
       >
         ↑
@@ -395,7 +399,7 @@ export function NavigationBar(props: {
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
   events_visible: boolean;
   setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setSortType: React.Dispatch<React.SetStateAction<string>>;
+  // setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   // const sort_scale = 0.03;
   return (
@@ -450,7 +454,7 @@ export function NavigationBar(props: {
           setItems={props.setItems}
           osi_name_align={props.osi_name_align}
           setOSINameAlign={props.setOSINameAlign}
-          setSortType={props.setSortType}
+          // setSortType={props.setSortType}
         />
       </div>
     </div>

@@ -9,7 +9,7 @@ export default function App() {
   // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
   const [tabKey, setTabKey] = useState("timer");
   const [osi_name_align, setOSINameAlign] = useState("left");
-  const [sortType, setSortType] = useState("");
+  // const [sortType, setSortType] = useState("");
   const [time, setTime] = useState(0),
     [playing, setPlaying] = useState(false),
     [events_visible, setEventsVisible] = useState(true),
@@ -25,7 +25,7 @@ export default function App() {
         on_screen_percent: 0,
       },
     ]);
-  var sortedItems = sortOSIs(sortType, items, time);
+  // var items = sortOSIs(sortType, items, time);
   // update the global clock
   useEffect(() => {
     if (playing) {
@@ -82,9 +82,9 @@ export default function App() {
               time={time}
               title={title}
               setTitle={setTitle}
-              items={sortedItems}
+              items={items}
               setItems={setItems}
-              setSortType={setSortType}
+              // setSortType={setSortType}
             />
           ),
           timer: (
@@ -95,7 +95,7 @@ export default function App() {
               setTime={setTime}
               title={title}
               setTitle={setTitle}
-              items={sortedItems}
+              items={items}
               setItems={setItems}
               file={file}
               setFile={setFile}
@@ -103,10 +103,10 @@ export default function App() {
               setOSINameAlign={setOSINameAlign}
               events_visible={events_visible}
               setEventsVisible={setEventsVisible}
-              setSortType={setSortType}
+              // setSortType={setSortType}
             />
           ),
-          exporter: <Exporter items={sortedItems} time={time} />,
+          exporter: <Exporter items={items} time={time} />,
         }[tabKey]
       }
 

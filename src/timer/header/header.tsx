@@ -174,9 +174,14 @@ function SaveLoad(props: {
   console.log("Loading OSIs:");
   for (var i = 0; i < props.items.length; i++) {
     console.log(
-      "%s: app len: %i",
+      "%s: app len: %i, %s",
       props.items[i].name,
-      props.items[i].appearances.length
+      props.items[i].appearances.length,
+      JSON.stringify(
+        props.items[i].appearances[props.items[i].appearances.length - 1],
+        null,
+        2
+      )
     );
   }
 

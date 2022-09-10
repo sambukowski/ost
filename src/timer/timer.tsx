@@ -69,7 +69,7 @@ export function Timer(props: {
   setOSINameAlign: React.Dispatch<React.SetStateAction<string>>;
   events_visible: boolean;
   setEventsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setSortType: React.Dispatch<React.SetStateAction<string>>;
+  // setSortType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <div>
@@ -94,7 +94,7 @@ export function Timer(props: {
         setOSINameAlign={props.setOSINameAlign}
         events_visible={props.events_visible}
         setEventsVisible={props.setEventsVisible}
-        setSortType={props.setSortType}
+        // setSortType={props.setSortType}
       />
       {props.items.map((char, i) => (
         <RenderOnScreenItem
