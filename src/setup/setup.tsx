@@ -1,8 +1,12 @@
-import { OnScreenItem, Event } from "../data-structures/ost-data-structures";
+import {
+  OnScreenItem,
+  OSTproject,
+} from "../data-structures/ost-data-structures";
 import {
   SortButtonAlphabeticalAscending,
   SortButtonAlphabeticalDecending,
 } from "../timer/header/navigation-bar";
+import { SaveLoad } from "../timer/header/header";
 
 function generateRandomColor(): string {
   const values = [
@@ -341,17 +345,162 @@ function OSISetup(props: {
   );
 }
 
+function LoadedProjectDeleteButton(props: { project: OSTproject }) {
+  return (
+    <div
+      style={{
+        background: "#842e2e",
+        margin: 20,
+        padding: 5,
+        paddingLeft: 5,
+        borderRadius: 15,
+        borderStyle: "solid",
+        borderWidth: 3,
+        borderColor: "black",
+        flex: 0.03,
+        fontSize: 55,
+        textAlign: "center",
+        verticalAlign: "center",
+        lineHeight: 0.2,
+        height: 50,
+      }}
+      // onClick={() => {
+      //   const index = props.items.indexOf(props.on_screen_item);
+      //   const tmp_items = [...props.items];
+      //   tmp_items.splice(index, 1);
+      //   props.setItems(tmp_items);
+      // }}
+    >
+      ␡
+    </div>
+  );
+}
+
+function OSTPActiveSelection(props: {
+  items: OnScreenItem[];
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+}) {
+  return (
+    <div
+      style={{
+        background: "gray",
+        margin: 5,
+        padding: 5,
+        paddingLeft: 10,
+        borderRadius: 15,
+        borderStyle: "solid",
+        borderWidth: 3,
+        borderColor: "black",
+        // display: "inline-block",
+        flex: 1,
+        fontSize: 65,
+        textAlign: "center",
+        verticalAlign: "center",
+        lineHeight: 0.6,
+      }}
+      onClick={() => props.setItems(props.items)}
+    >
+      Active
+    </div>
+    // when choosing what the active project is
+    // need to also set/update the state in the list of projects
+  );
+}
+
+function RenderOSTProjectHeader(props: {
+  project: OSTproject;
+  setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
+}) {
+  return (
+    <div style={{ display: "flex" }}>
+      <LoadedProjectDeleteButton project={props.project} />
+      <OSTPActiveSelection
+        items={props.project.items}
+        setItems={props.setItems}
+      />
+      <div
+        style={{
+          display: "flex",
+          background: "gray",
+          margin: 5,
+          padding: 5,
+          paddingLeft: 10,
+          borderRadius: 15,
+          borderStyle: "solid",
+          borderWidth: 3,
+          borderColor: "black",
+          verticalAlign: "top",
+          flex: 0.75,
+        }}
+      >
+        {props.project.title}
+      </div>
+    </div>
+  );
+}
+
 export function Setup(props: {
   time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   items: OnScreenItem[];
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
-  // setSortType: React.Dispatch<React.SetStateAction<string>>;
+  setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  file: string;
+  setFile: React.Dispatch<React.SetStateAction<string>>;
+  projects: OSTproject[];
+  setProjects: React.Dispatch<React.SetStateAction<OSTproject[]>>;
 }) {
   const sort_scale = 1;
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          marginLeft: 5,
+          marginRight: 5,
+          height: 85,
+        }}
+      >
+        <div
+          style={{
+            background: "gray",
+            margin: 5,
+            padding: 5,
+            paddingLeft: 10,
+            borderRadius: 15,
+            borderStyle: "solid",
+            borderWidth: 3,
+            borderColor: "black",
+            // display: "inline-block",
+            flex: 1,
+            fontSize: 65,
+            textAlign: "center",
+            verticalAlign: "center",
+            lineHeight: 0.6,
+          }}
+        >
+          {props.projects.length}{" "}
+          {props.projects.length === 1 ? "project" : "projects"} loaded
+        </div>
+
+        <div style={{ flex: 1 }}></div>
+        <SaveLoad
+          setPlaying={props.setPlaying}
+          time={props.time}
+          setTime={props.setTime}
+          title={props.title}
+          setTitle={props.setTitle}
+          items={props.items}
+          setItems={props.setItems}
+          file={props.file}
+          setFile={props.setFile}
+        />
+      </div>
+      {props.projects.map((proj) => (
+        <RenderOSTProjectHeader project={proj} setItems={props.setItems} />
+      ))}
       <div
         style={{
           display: "flex",

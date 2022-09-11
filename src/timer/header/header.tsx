@@ -79,12 +79,18 @@ function Download(filename: string, text: string) {
   document.body.removeChild(element);
 }
 
-function BuildOSTproject(
+export function BuildOSTproject(
   title: string,
   time: number,
-  items: OnScreenItem[]
+  items: OnScreenItem[],
+  id: number | undefined
 ): OSTproject {
-  const proj: OSTproject = { title: title, time: time, items: items };
+  const proj: OSTproject = {
+    title: title,
+    time: time,
+    items: items,
+    id: id,
+  };
   return proj;
 }
 
@@ -145,7 +151,7 @@ export function RebuildItems(incoming_items: OnScreenItem[], time: number) {
   return new_items;
 }
 
-function SaveLoad(props: {
+export function SaveLoad(props: {
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   time: number;
   setTime: React.Dispatch<React.SetStateAction<number>>;
@@ -195,7 +201,7 @@ function SaveLoad(props: {
           Download(
             props.title.replace(/\s/g, "-") + "[" + props.time + "].ostp",
             JSON.stringify(
-              BuildOSTproject(props.title, props.time, props.items),
+              BuildOSTproject(props.title, props.time, props.items, undefined),
               null,
               2
             )

@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
-import { OnScreenItem } from "./data-structures/ost-data-structures";
+import {
+  OnScreenItem,
+  OSTproject,
+} from "./data-structures/ost-data-structures";
 import { Setup } from "./setup/setup";
 import { Timer } from "./timer/timer";
 import { Exporter } from "./exporter/exporter";
-import { sortOSIs } from "./timer/header/navigation-bar";
+// import { sortOSIs } from "./timer/header/navigation-bar";
+import { BuildOSTproject } from "./timer/header/header";
 
 export default function App() {
   // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
@@ -25,6 +29,44 @@ export default function App() {
         on_screen_percent: 0,
       },
     ]);
+  var test1: OnScreenItem[] = [
+    {
+      name: "Test1",
+      appearances: [],
+      event_list: [],
+      events: [],
+      color: "#aaaaaa",
+      on_screen_percent: 0,
+    },
+  ];
+  var test2: OnScreenItem[] = [
+    {
+      name: "Test2",
+      appearances: [],
+      event_list: [],
+      events: [],
+      color: "#00ff00",
+      on_screen_percent: 0,
+    },
+  ];
+  var test3: OnScreenItem[] = [
+    {
+      name: "Test3",
+      appearances: [],
+      event_list: [],
+      events: [],
+      color: "#0000ff",
+      on_screen_percent: 0,
+    },
+  ];
+  const [opstID, setOSTPid] = useState(1);
+
+  const [projects, setProjects] = useState<OSTproject[]>([
+    BuildOSTproject(title, time, items, 1),
+    BuildOSTproject(title, time, test1, 2),
+    BuildOSTproject(title, time, test2, 3),
+    BuildOSTproject(title, time, test3, 4),
+  ]);
   // var items = sortOSIs(sortType, items, time);
   // update the global clock
   useEffect(() => {
@@ -80,10 +122,16 @@ export default function App() {
           setup: (
             <Setup
               time={time}
+              setTime={setTime}
+              setPlaying={setPlaying}
               title={title}
               setTitle={setTitle}
               items={items}
               setItems={setItems}
+              file={file}
+              setFile={setFile}
+              projects={projects}
+              setProjects={setProjects}
               // setSortType={setSortType}
             />
           ),

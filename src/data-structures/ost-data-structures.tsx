@@ -13,6 +13,7 @@ export interface Appearance {
 }
 
 export interface OSTproject {
+  id: number | undefined;
   title: string;
   time: number;
   items: OnScreenItem[];
