@@ -10,25 +10,30 @@ import { Exporter } from "./exporter/exporter";
 import { BuildOSTproject } from "./timer/header/header";
 
 export default function App() {
-  // const [page_bg_color, setPageBGColor] = useState("#4e4e4e");
+  const [playing, setPlaying] = useState(false);
+
   const [tabKey, setTabKey] = useState("timer");
   const [osi_name_align, setOSINameAlign] = useState("left");
-  // const [sortType, setSortType] = useState("");
-  const [time, setTime] = useState(0),
-    [playing, setPlaying] = useState(false),
-    [events_visible, setEventsVisible] = useState(true),
-    [file, setFile] = useState(""),
-    [title, setTitle] = useState("Title"),
-    [items, setItems] = useState<OnScreenItem[]>([
-      {
-        name: "New Item",
-        appearances: [],
-        event_list: [],
-        events: [],
-        color: "#ff0000",
-        on_screen_percent: 0,
-      },
-    ]);
+  const [events_visible, setEventsVisible] = useState(true);
+  const [file, setFile] = useState("");
+
+  const [time, setTime] = useState(0);
+  const [title, setTitle] = useState("Title");
+  const [items, setItems] = useState<OnScreenItem[]>([
+    {
+      name: "New Item",
+      appearances: [],
+      event_list: [],
+      events: [],
+      color: "#ff0000",
+      on_screen_percent: 0,
+    },
+  ]);
+
+  const [activeProject, setActiveProject] = useState<OSTproject>(
+    BuildOSTproject(title, time, items, 0)
+  );
+
   var test1: OnScreenItem[] = [
     {
       name: "Test1",
@@ -39,33 +44,11 @@ export default function App() {
       on_screen_percent: 0,
     },
   ];
-  var test2: OnScreenItem[] = [
-    {
-      name: "Test2",
-      appearances: [],
-      event_list: [],
-      events: [],
-      color: "#00ff00",
-      on_screen_percent: 0,
-    },
-  ];
-  var test3: OnScreenItem[] = [
-    {
-      name: "Test3",
-      appearances: [],
-      event_list: [],
-      events: [],
-      color: "#0000ff",
-      on_screen_percent: 0,
-    },
-  ];
   const [opstID, setOSTPid] = useState(1);
 
   const [projects, setProjects] = useState<OSTproject[]>([
-    BuildOSTproject(title, time, items, 1),
-    BuildOSTproject(title, time, test1, 2),
-    BuildOSTproject(title, time, test2, 3),
-    BuildOSTproject(title, time, test3, 4),
+    BuildOSTproject(title, time, items, 0),
+    BuildOSTproject("test 1", time, test1, 1),
   ]);
   // var items = sortOSIs(sortType, items, time);
   // update the global clock
@@ -130,6 +113,8 @@ export default function App() {
               setItems={setItems}
               file={file}
               setFile={setFile}
+              activeProject={activeProject}
+              setActiveProject={setActiveProject}
               projects={projects}
               setProjects={setProjects}
               // setSortType={setSortType}

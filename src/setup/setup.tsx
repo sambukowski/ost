@@ -7,6 +7,7 @@ import {
   SortButtonAlphabeticalDecending,
 } from "../timer/header/navigation-bar";
 import { SaveLoad } from "../timer/header/header";
+import { BuildOSTproject } from "../timer/header/header";
 
 function generateRandomColor(): string {
   const values = [
@@ -377,7 +378,16 @@ function LoadedProjectDeleteButton(props: { project: OSTproject }) {
 }
 
 function OSTPActiveSelection(props: {
+  time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
   items: OnScreenItem[];
+  activeProject: OSTproject;
+  setActiveProject: React.Dispatch<React.SetStateAction<OSTproject>>;
+  project: OSTproject;
+  projects: OSTproject[];
+  setProjects: React.Dispatch<React.SetStateAction<OSTproject[]>>;
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
 }) {
   return (
@@ -398,9 +408,39 @@ function OSTPActiveSelection(props: {
         verticalAlign: "center",
         lineHeight: 0.6,
       }}
-      onClick={() => props.setItems(props.items)}
+      onClick={() => {
+        // var active_proj = props.activeProject;
+        let active_items = [...props.items];
+        let active_title = props.title; //works
+        let active_time = props.time;
+
+        // console.log("active_title: %s", active_title);
+
+        let curr_proj = BuildOSTproject(
+          active_title,
+          active_time,
+          active_items,
+          props.activeProject.id
+        );
+        // console.log("curr proj:");
+        // console.log("  title: %s", curr_proj.title);
+        // console.log("  items: %i", curr_proj.items.length);
+        // console.log("  time: %s", curr_proj.time);
+
+        let newProjects = [...props.projects];
+        newProjects[props.projects.indexOf(props.activeProject)] = curr_proj;
+
+        // console.log("len projects: %i", newProjects.length);
+        // newProjects.push(curr_proj);
+        props.setProjects(newProjects);
+
+        props.setItems(props.project.items);
+        props.setTitle(props.project.title);
+        props.setTime(props.project.time);
+        props.setActiveProject(props.project);
+      }}
     >
-      Active
+      {props.project.id === props.activeProject.id ? "Active" : "--"}
     </div>
     // when choosing what the active project is
     // need to also set/update the state in the list of projects
@@ -408,15 +448,33 @@ function OSTPActiveSelection(props: {
 }
 
 function RenderOSTProjectHeader(props: {
+  time: number;
+  setTime: React.Dispatch<React.SetStateAction<number>>;
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  items: OnScreenItem[];
   project: OSTproject;
+  activeProject: OSTproject;
+  setActiveProject: React.Dispatch<React.SetStateAction<OSTproject>>;
+  projects: OSTproject[];
+  setProjects: React.Dispatch<React.SetStateAction<OSTproject[]>>;
   setItems: React.Dispatch<React.SetStateAction<OnScreenItem[]>>;
 }) {
   return (
     <div style={{ display: "flex" }}>
       <LoadedProjectDeleteButton project={props.project} />
       <OSTPActiveSelection
-        items={props.project.items}
+        time={props.time}
+        setTime={props.setTime}
+        title={props.title}
+        setTitle={props.setTitle}
+        items={props.items}
         setItems={props.setItems}
+        activeProject={props.activeProject}
+        setActiveProject={props.setActiveProject}
+        project={props.project}
+        projects={props.projects}
+        setProjects={props.setProjects}
       />
       <div
         style={{
@@ -433,7 +491,9 @@ function RenderOSTProjectHeader(props: {
           flex: 0.75,
         }}
       >
-        {props.project.title}
+        {props.project.id === props.activeProject.id
+          ? props.title
+          : props.project.title}
       </div>
     </div>
   );
@@ -449,6 +509,8 @@ export function Setup(props: {
   setPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   file: string;
   setFile: React.Dispatch<React.SetStateAction<string>>;
+  activeProject: OSTproject;
+  setActiveProject: React.Dispatch<React.SetStateAction<OSTproject>>;
   projects: OSTproject[];
   setProjects: React.Dispatch<React.SetStateAction<OSTproject[]>>;
 }) {
@@ -499,7 +561,19 @@ export function Setup(props: {
         />
       </div>
       {props.projects.map((proj) => (
-        <RenderOSTProjectHeader project={proj} setItems={props.setItems} />
+        <RenderOSTProjectHeader
+          project={proj}
+          time={props.time}
+          setTime={props.setTime}
+          title={props.title}
+          setTitle={props.setTitle}
+          items={props.items}
+          setItems={props.setItems}
+          activeProject={props.activeProject}
+          setActiveProject={props.setActiveProject}
+          projects={props.projects}
+          setProjects={props.setProjects}
+        />
       ))}
       <div
         style={{
